@@ -1,978 +1,1739 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Garage des Coteaux — Dépannage</title>
+<title>Garage des Coteaux — Dépannage V2</title>
 <style>
-:root{--red:#c40000;--dark:#111;--bg:#f3f3f3;--card:#fff;--muted:#666}
+:root{--red:#c91424;--dark:#111;--bg:#f3f4f6;--muted:#6b7280;--line:#e5e7eb}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#171717}
-header{background:var(--dark);color:#fff;padding:16px;position:sticky;top:0;z-index:5}
-header h1{font-size:20px;margin:0 0 4px}
-header small{opacity:.8}
-main{max-width:680px;margin:auto;padding:14px 14px 90px}
-.card{background:var(--card);border-radius:14px;padding:18px;margin:12px 0;box-shadow:0 2px 8px #0001}
-h2{font-size:20px;margin:0 0 14px}
-.muted{color:var(--muted);font-size:14px}
-button,select,input,textarea{font:inherit}
-button{width:100%;padding:15px;border:0;border-radius:10px;background:var(--red);color:white;font-weight:700;margin:6px 0;font-size:16px}
-button.dark{background:#222}
-button.light{background:#e9e9e9;color:#111}
-button.small{width:auto;padding:10px 13px;font-size:14px}
-label{display:block;font-weight:700;margin:12px 0 5px}
-select,input,textarea{width:100%;padding:13px;border:1px solid #ccc;border-radius:9px;background:white}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.hidden{display:none}
-.step{border-left:4px solid var(--red);padding:10px 12px;margin:8px 0;background:#fafafa;border-radius:7px}
-.check{display:flex;gap:10px;align-items:center;padding:11px 0}
+body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:#111}
+.app{max-width:480px;margin:auto;min-height:100vh;background:#fff;display:flex;flex-direction:column}
+header{background:#111;color:#fff;padding:17px 18px 14px;position:sticky;top:0;z-index:10}
+.brand{font-weight:800;font-size:18px}
+.step{font-size:12px;color:#bbb;margin-top:6px}
+.progress{height:5px;background:#444;border-radius:8px;margin-top:11px}
+.bar{height:100%;background:var(--red);border-radius:8px;transition:.2s}
+main{padding:18px;flex:1}
+.screen{display:none}
+.screen.active{display:block}
+h1{font-size:24px;margin:2px 0 7px}
+.sub{font-size:14px;color:var(--muted);margin-bottom:17px}
+.card{border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0;box-shadow:0 2px 8px #00000009}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+input,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;background:#fff}
+textarea{min-height:80px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{border:2px solid #ddd;border-radius:12px;padding:14px 9px;text-align:center;font-weight:700;background:#fff;cursor:pointer}
+.choice.selected{border-color:var(--red);background:#fff1f2}
+.big{width:100%;font-size:18px;padding:18px;margin:6px 0;border:0;border-radius:12px;font-weight:800}
+.red{background:var(--red);color:#fff}
+.dark{background:#111;color:#fff}
+.gray{background:#e5e7eb}
+.notice{padding:11px;border-radius:10px;background:#fff7ed;color:#9a3412;font-size:13px;margin-top:10px}
+.ok{background:#ecfdf5;color:#166534}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photo{border:2px dashed #ccc;border-radius:12px;padding:20px 8px;text-align:center;color:#666;cursor:pointer}
+.photo.done{border-style:solid;border-color:#222;color:#111;background:#f8f8f8}
+.check{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #eee;font-weight:600}
 .check input{width:20px;height:20px}
-.toprow{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.badge{display:inline-block;background:#eee;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:700}
-.badge.red{background:#fee;color:#a00000}
-nav{position:fixed;bottom:0;left:0;right:0;background:#111;padding:8px;display:flex;gap:7px;z-index:6}
-nav button{margin:0;padding:11px 6px;font-size:12px;background:#333}
-nav button.active{background:var(--red)}
-.notice{padding:11px;border-radius:9px;background:#fff4d6;margin:10px 0;font-size:14px}
+.timeline{border-left:3px solid #ddd;margin:10px 0 5px 7px;padding-left:15px}
+.event{padding:9px 0}
+.event b{display:block}
+.event small{color:var(--muted)}
+.status{display:inline-block;padding:7px 10px;border-radius:99px;background:#eee;font-size:12px;font-weight:800}
+.signature{height:150px;border:2px dashed #aaa;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#888;text-align:center}
+footer{position:sticky;bottom:0;background:#fff;border-top:1px solid #ddd;padding:11px;display:flex;gap:9px;z-index:10}
+button{cursor:pointer}
+.back{background:#e5e7eb;border:0;border-radius:12px;padding:14px 15px;font-weight:800}
+.next{flex:1;background:var(--red);color:#fff;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:800}
+.next:disabled{background:#bbb;cursor:not-allowed}
+.hidden{display:none}
+.small{font-size:12px;color:var(--muted)}
 </style>
 </head>
 
 <body>
+<div class="app">
 
 <header>
-  <h1>GARAGE DES COTEAUX</h1>
-  <small id="userLine">Application dépannage</small>
+<div class="brand">GARAGE DES COTEAUX <span style="float:right;font-size:20px">☰</span></div>
+<div class="step" id="stepText"></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
 </header>
 
 <main>
 
-<section id="login" class="card">
-  <h2>Connexion</h2>
-  <p class="muted">Accès réservé au Garage des Coteaux</p>
+<section class="screen active" id="s0">
+<h1>Nouvelle intervention</h1>
+<div class="sub">Créer rapidement une mission de dépannage.</div>
 
-  <label>Utilisateur</label>
+<div class="card">
 
-  <select id="user">
-    <option>Nicolas — Administrateur</option>
-    <option>Kevin — Dépanneur</option>
-    <option>Nico — Dépanneur</option>
-  </select>
+<label>Nature de l’intervention</label>
 
-  <button onclick="login()">SE CONNECTER</button>
+<div class="grid" id="nature">
+<div class="choice" data-v="Police">Police</div>
+<div class="choice" data-v="Autoroute">Autoroute</div>
+<div class="choice" data-v="Client">Client</div>
+<div class="choice" data-v="Garage">Garage</div>
+<div class="choice" data-v="Fourrière">Fourrière</div>
+</div>
+
+<label>Type de dépannage</label>
+
+<div class="grid" id="type">
+<div class="choice" data-v="Dépannage sur place">Dépannage sur place</div>
+<div class="choice" data-v="Remorquage">Remorquage</div>
+</div>
+
+<div class="choice" data-v="Déplacement pour rien" id="nothing" style="margin-top:10px">
+Déplacement pour rien
+</div>
+
+</div>
+
+<div class="card">
+
+<label>N° de dossier</label>
+<input id="dossier" placeholder="Assistance / dossier">
+
+<label>Nom / prénom</label>
+<input id="client" placeholder="Nom / prénom">
+
+<label>Téléphone</label>
+<input id="tel" type="tel" placeholder="06...">
+
+<label>E-mail</label>
+<input id="email" type="email" placeholder="client@email.fr">
+
+<label>Adresse</label>
+<input id="clientAddress" placeholder="Adresse du client">
+
+<label>Assurance</label>
+<input id="insurance" placeholder="Nom de l’assurance">
+
+<label>N° de dossier / prise en charge</label>
+<input id="dossierRef" placeholder="Référence assurance">
+
+<label>Adresse de prise en charge</label>
+<input id="pickup" placeholder="Adresse / lieu">
+
+</div>
 </section>
 
 
-<section id="home" class="hidden">
+<section class="screen" id="s1">
 
-  <div class="card">
+<h1>Début de mission</h1>
 
-    <div class="toprow">
+<div class="sub">
+Un seul bouton quand tu arrives sur place : l'heure et le GPS sont enregistrés automatiquement.
+</div>
 
-      <div>
-        <h2 id="hello">Bonjour</h2>
-        <div class="muted">Garage des Coteaux</div>
-      </div>
+<button class="big red" id="start">
+📍 DÉBUT DE MISSION / ARRIVÉE SUR PLACE
+</button>
 
-      <span class="badge red">CONNECTÉ</span>
+<div id="startMsg" class="notice">
+Mission pas encore commencée.
+</div>
 
-    </div>
+<div id="rateMsg" class="notice hidden"></div>
 
-    <button onclick="show('new')">
-      + NOUVELLE INTERVENTION
-    </button>
+<div class="card">
 
-  </div>
+<label>Véhicule — peut être complété plus tard</label>
 
+<div class="grid">
+<input id="brand" placeholder="Marque">
+<input id="model" placeholder="Modèle">
+</div>
 
-  <div class="card">
+<label>Immatriculation</label>
+<input id="plate" placeholder="AB-123-CD">
 
-    <h2>Missions</h2>
+<label>Kilométrage <span class="small">(facultatif)</span></label>
+<input id="km" type="number" placeholder="Facultatif">
 
-    <button class="dark" onclick="show('current')">
-      Missions en cours
-    </button>
+</div>
 
-    <button class="dark" onclick="show('park')">
-      Missions en parc
-    </button>
+<div class="card">
 
-    <button class="dark" onclick="show('history')">
-      Missions terminées
-    </button>
+<b>Photos — facultatives</b>
 
-    <button class="light" onclick="show('settings')">
-      Paramètres
-    </button>
+<div class="photo-grid" id="photos">
 
-  </div>
+<div class="photo" data-p="Avant">📷<br>Avant</div>
+<div class="photo" data-p="Arrière">📷<br>Arrière</div>
+<div class="photo" data-p="Côté gauche">📷<br>Côté gauche</div>
+<div class="photo" data-p="Côté droit">📷<br>Côté droit</div>
+<div class="photo" data-p="Tableau de bord">📷<br>Tableau de bord</div>
+<div class="photo" data-p="Dommages">📷<br>Dommages</div>
 
-</section>
-
-
-<section id="new" class="hidden">
-
-  <div class="card">
-
-    <h2>Nouvelle intervention</h2>
-
-    <label>Nature de l’intervention</label>
-
-    <select id="nature">
-      <option>Police</option>
-      <option>Autoroute</option>
-      <option>Client</option>
-      <option>Garage</option>
-    </select>
-
-
-    <label>Type de dépannage</label>
-
-    <select id="type">
-      <option>Dépannage sur place</option>
-      <option>Remorquage</option>
-      <option>Déplacement pour rien</option>
-    </select>
-
-
-    <label>Dépanneur</label>
-
-    <select id="driver">
-      <option>Kevin</option>
-      <option>Nico</option>
-    </select>
-
-
-    <div class="notice">
-      Les informations client et véhicule pourront être complétées plus tard.
-      Elles seront demandées avant la clôture si nécessaires.
-    </div>
-
-
-    <button onclick="startMission()">
-      DÉPART MISSION — heure + GPS
-    </button>
-
-    <button class="light" onclick="show('home')">
-      Retour
-    </button>
-
-  </div>
-
-</section>
-
-
-<section id="mission" class="hidden">
-
-  <div class="card">
-
-    <div class="toprow">
-
-      <h2>Mission en cours</h2>
-
-      <span id="statusBadge" class="badge red">
-        EN COURS
-      </span>
-
-    </div>
-
-    <div id="timeline"></div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h2>Informations</h2>
-
-
-    <button class="dark" onclick="toggle('client')">
-      Informations client
-    </button>
-
-
-    <div id="client" class="hidden">
-
-      <label>Nom / société</label>
-      <input id="clientName" placeholder="À compléter">
-
-      <label>Téléphone</label>
-      <input id="clientPhone" placeholder="À compléter" inputmode="tel">
-
-      <label>Adresse</label>
-      <input id="clientAddress" placeholder="À compléter">
-
-    </div>
-
-
-    <button class="dark" onclick="toggle('vehicle')">
-      Informations véhicule
-    </button>
-
-
-    <div id="vehicle" class="hidden">
-
-      <label>Marque</label>
-      <input id="make" placeholder="Ex. Renault">
-
-      <label>Modèle</label>
-      <input id="model" placeholder="Ex. Clio">
-
-      <label>Immatriculation</label>
-      <input id="plate" placeholder="AA-123-AA">
-
-      <label>Kilométrage (facultatif)</label>
-      <input id="km" placeholder="Facultatif" inputmode="numeric">
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h2>Étapes terrain</h2>
-
-    <button onclick="eventStep('Arrivée sur place')">
-      ARRIVÉE SUR PLACE — heure + GPS
-    </button>
-
-    <button onclick="eventStep('Fin de chargement')">
-      FIN DE CHARGEMENT — heure + GPS
-    </button>
-
-    <button onclick="show('services')">
-      PRESTATIONS
-    </button>
-
-    <button onclick="show('signature')">
-      SIGNATURE / CLIENT ABSENT
-    </button>
-
-    <button onclick="eventStep('Départ du lieu d’intervention')">
-      DÉPART DU LIEU — heure + GPS
-    </button>
-
-    <button onclick="show('destination')">
-      CHOISIR LA DESTINATION
-    </button>
-
-  </div>
+</div>
+</div>
 
 </section>
 
 
-<section id="services" class="hidden">
+<section class="screen" id="s2">
 
-  <div class="card">
+<h1>Fin de chargement</h1>
 
-    <h2>Prestations</h2>
+<div class="sub">
+Validation avant de quitter le lieu d'intervention.
+</div>
 
-    <label class="check">
-      <input type="checkbox" value="Treuillage">
-      Treuillage
-    </label>
+<button class="big dark" id="loaded">
+✓ FIN DE CHARGEMENT
+</button>
 
-    <label class="check">
-      <input type="checkbox" value="Grutage">
-      Grutage
-    </label>
-
-    <label class="check">
-      <input type="checkbox" value="Nettoyage de la chaussée">
-      Nettoyage de la chaussée
-    </label>
-
-    <label class="check">
-      <input type="checkbox" value="Attente sur place">
-      Attente sur place
-    </label>
-
-    <button onclick="saveServices()">
-      ENREGISTRER
-    </button>
-
-    <button class="light" onclick="show('mission')">
-      Retour
-    </button>
-
-  </div>
+<div id="loadMsg" class="notice">
+Chargement non validé.
+</div>
 
 </section>
 
 
-<section id="signature" class="hidden">
+<section class="screen" id="s3">
 
-  <div class="card">
+<h1>Prestations</h1>
 
-    <h2>Prise en charge</h2>
+<div class="sub">
+Sélectionner uniquement ce qui a été réalisé.
+</div>
 
-    <button onclick="sign(true)">
-      CLIENT PRÉSENT — SIGNATURE
-    </button>
+<div class="card">
 
-    <button class="dark" onclick="sign(false)">
-      CLIENT ABSENT / IMPOSSIBLE DE FAIRE SIGNER
-    </button>
+<label class="check">
+<input type="checkbox" value="Treuillage">
+Treuillage
+</label>
 
+<label class="check">
+<input type="checkbox" value="Grutage">
+Grutage
+</label>
 
-    <div id="absence" class="hidden">
+<label class="check">
+<input type="checkbox" value="Nettoyage de la chaussée">
+Nettoyage de la chaussée
+</label>
 
-      <label>Motif</label>
+<label class="check">
+<input type="checkbox" value="Attente sur place">
+Attente sur place
+</label>
 
-      <textarea
-        id="absenceReason"
-        placeholder="Ex. véhicule sans occupant, client absent..."
-      ></textarea>
-
-      <button onclick="saveAbsence()">
-        ENREGISTRER LE MOTIF
-      </button>
-
-    </div>
-
-
-    <button class="light" onclick="show('mission')">
-      Retour
-    </button>
-
-  </div>
+</div>
 
 </section>
 
 
-<section id="destination" class="hidden">
+<section class="screen" id="s4">
 
-  <div class="card">
+<h1>Signature</h1>
 
-    <h2>Destination</h2>
+<div class="sub">
+Signature de prise en charge si le client est présent.
+</div>
 
-    <label>Choix</label>
+<div class="card">
 
-    <select id="destType" onchange="destChange()">
-      <option>Départ vers dépôt</option>
-      <option>Départ vers livraison</option>
-    </select>
+<div class="grid">
 
+<div class="choice selected" id="present">
+Client présent
+</div>
 
-    <div id="deliveryBox" class="hidden">
+<div class="choice" id="absent">
+Client absent
+</div>
 
-      <label>Adresse de livraison</label>
+</div>
 
-      <input
-        id="deliveryAddress"
-        placeholder="Garage / client"
-      >
+<div id="sigArea">
+<div class="signature" id="sig">
+✍️ Appuyer ici pour simuler la signature client
+</div>
+</div>
 
-    </div>
+<div id="absMsg" class="notice hidden">
+Client absent — motif enregistré.
+</div>
 
-
-    <button onclick="chooseDestination()">
-      VALIDER LA DESTINATION
-    </button>
-
-    <button class="light" onclick="show('mission')">
-      Retour
-    </button>
-
-  </div>
+</div>
 
 </section>
 
 
-<section id="park" class="hidden">
+<section class="screen" id="s5">
 
-  <div class="card">
+<h1>Départ du lieu</h1>
 
-    <h2>Missions en parc</h2>
+<div class="sub">
+Choisir la destination de cette étape.
+</div>
 
-    <p class="muted">
-      Une mission mise en parc reste ouverte et peut être reprise plus tard.
-    </p>
+<button class="big red" id="toDepot">
+🏠 DÉPART VERS DÉPÔT
+</button>
 
-    <button onclick="resumeMission()">
-      REPRENDRE LA MISSION
-    </button>
+<button class="big dark" id="toDelivery">
+📍 DÉPART VERS LIVRAISON
+</button>
 
-    <button class="dark" onclick="show('parkExit')">
-      ENLÈVEMENT PAR ÉPAVISTE / DÉPANNEUR
-    </button>
+<div class="card">
 
-    <button class="light" onclick="show('home')">
-      Retour
-    </button>
+<label>Adresse de livraison</label>
+<input id="delivery" placeholder="Garage / client">
 
-  </div>
+<label>Distance Garage → accident (km)</label>
+<input id="kmGarageAccident" type="number" min="0" step="0.1" placeholder="Ex. 12">
 
-</section>
+<label>
+Accident → livraison (km)
+<span class="small">si livraison</span>
+</label>
 
+<input id="kmAccidentDelivery" type="number" min="0" step="0.1" placeholder="Ex. 30">
 
-<section id="parkExit" class="hidden">
+<label>
+Livraison → dépôt (km)
+<span class="small">si livraison</span>
+</label>
 
-  <div class="card">
+<input id="kmDeliveryDepot" type="number" min="0" step="0.1" placeholder="Ex. 15">
 
-    <h2>Sortie du parc</h2>
+<div id="kmCalc" class="notice ok">
+20 km inclus — renseigner les distances pour calculer.
+</div>
 
-    <label>Type</label>
+</div>
 
-    <select>
-      <option>Épaviste</option>
-      <option>Dépanneur</option>
-    </select>
+<div class="card">
 
+<b>Forfait remorquage</b>
 
-    <label>Nom / société</label>
+<div class="grid" id="tariffChoice">
 
-    <input placeholder="Nom ou société">
+<div class="choice selected" data-v="Normal">
+🟢 Normal
+</div>
 
+<div class="choice" data-v="Majoré">
+🔴 Majoré
+</div>
 
-    <label class="check">
-      <input type="checkbox">
-      Clés remises
-    </label>
+</div>
 
-    <label class="check">
-      <input type="checkbox">
-      Papiers du véhicule remis
-    </label>
+<div class="notice">
+Le choix normal/majoré peut être ajusté par l’administrateur.
+</div>
 
-    <label class="check">
-      <input type="checkbox">
-      Effets personnels vérifiés / remis
-    </label>
-
-    <label class="check">
-      <input type="checkbox">
-      Véhicule contrôlé avant départ
-    </label>
-
-
-    <label>Observations</label>
-
-    <textarea placeholder="Observations"></textarea>
-
-
-    <button onclick="closeMission('Enlevé du parc')">
-      ENREGISTRER LA SORTIE
-    </button>
-
-    <button class="light" onclick="show('park')">
-      Retour
-    </button>
-
-  </div>
+</div>
 
 </section>
 
 
-<section id="current" class="hidden">
+<section class="screen" id="s6">
 
-  <div class="card">
+<h1 id="arrivalTitle">
+Arrivée
+</h1>
 
-    <h2>Missions en cours</h2>
+<div class="sub">
+Enregistrer l'arrivée avec heure + GPS.
+</div>
 
-    <div id="currentText" class="muted">
-      Aucune mission chargée dans ce prototype.
-    </div>
+<button class="big red" id="arrivalBtn">
+📍 ENREGISTRER L'ARRIVÉE
+</button>
 
-    <button onclick="show('mission')">
-      OUVRIR LA MISSION
-    </button>
-
-    <button class="light" onclick="show('home')">
-      Retour
-    </button>
-
-  </div>
+<div id="arrivalMsg" class="notice">
+Arrivée non enregistrée.
+</div>
 
 </section>
 
 
-<section id="history" class="hidden">
+<section class="screen" id="s7">
 
-  <div class="card">
+<h1 id="parkTitle">
+Mise en parc
+</h1>
 
-    <h2>Missions terminées</h2>
+<div class="sub" id="parkSub">
+La mission reste ouverte et pourra être reprise plus tard.
+</div>
 
-    <p class="muted">
-      L'historique sera relié à la base de données dans la version sécurisée.
-    </p>
+<div class="card">
 
-    <button class="light" onclick="show('home')">
-      Retour
-    </button>
+<span class="status">
+EN PARC
+</span>
 
-  </div>
+<div class="timeline">
+
+<div class="event">
+<b id="parkEvent">Mise en parc</b>
+<small id="parkTime"></small>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<b>Contrôle avant mise en parc</b>
+
+<div class="sub" style="margin-top:6px">
+Ces informations sont obligatoires avant de mettre le véhicule en parc.
+</div>
+
+<div class="grid">
+
+<input id="parkBrand" placeholder="Marque *">
+<input id="parkModel" placeholder="Modèle *">
+
+</div>
+
+<label>
+Immatriculation *
+</label>
+
+<input id="parkPlate" placeholder="AB-123-CD">
+
+</div>
+
+
+<div class="card">
+
+<b>Photo du véhicule *</b>
+
+<div class="sub" style="margin-top:6px">
+Si une photo a déjà été prise pendant le dépannage, elle est conservée.
+</div>
+
+<div class="photo" id="parkPhotoBtn">
+📷<br>AJOUTER / PRENDRE UNE PHOTO
+</div>
+
+<div id="parkPhotoStatus" class="notice">
+Aucune photo du véhicule enregistrée pour l'instant.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<b>Clés du véhicule *</b>
+
+<div class="sub" style="margin-top:6px">
+Indiquer obligatoirement si les clés sont présentes ou non.
+</div>
+
+<div class="grid">
+
+<div class="choice" id="parkKeysYes">
+🔑 Clés présentes
+</div>
+
+<div class="choice" id="parkKeysNo">
+🚫 Pas de clés
+</div>
+
+</div>
+
+<div id="parkKeysStatus" class="notice">
+Merci d'indiquer le statut des clés.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<b>Gardiennage</b>
+
+<div class="notice ok">
+50 € HT / jour — le compteur démarre à la mise en parc.
+</div>
+
+<div id="parkGuardPreview" class="small">
+Le nombre de jours sera calculé automatiquement.
+</div>
+
+</div>
+
+<button class="big red" id="parkValidate">
+✓ VALIDER LA MISE EN PARC
+</button>
 
 </section>
 
 
-<section id="settings" class="hidden">
+<section class="screen" id="s8">
 
-  <div class="card">
+<h1>Reprise de mission</h1>
 
-    <h2>Paramètres</h2>
+<div class="sub">
+Transférer le véhicule vers sa destination finale.
+</div>
 
-    <p class="muted">
-      Version prototype — accès sécurisé et stockage en ligne à intégrer.
-    </p>
+<div class="card">
 
-    <button class="light" onclick="show('home')">
-      Retour
-    </button>
+<label>
+Garage / client destinataire
+</label>
 
-  </div>
+<input id="destFinal" placeholder="Nom du garage ou client">
 
-</section>
+<label>
+Adresse de livraison
+</label>
 
+<input id="destAddress" placeholder="Adresse">
 
-<section id="delivery" class="hidden">
+</div>
 
-  <div class="card">
-
-    <h2>Livraison</h2>
-
-    <p class="muted">
-      Avant clôture : marque, modèle et immatriculation obligatoires.
-      Kilométrage facultatif.
-    </p>
-
-    <button onclick="eventStep('Arrivée au garage / livraison')">
-      ARRIVÉE GARAGE / LIVRAISON — heure + GPS
-    </button>
-
-    <button onclick="show('keys')">
-      CONTRÔLE DES CLÉS
-    </button>
-
-    <button class="light" onclick="show('mission')">
-      Retour
-    </button>
-
-  </div>
+<button class="big red" id="transferStart">
+▶ DÉPART DU PARC
+</button>
 
 </section>
 
 
-<section id="keys" class="hidden">
+<section class="screen" id="s9">
 
-  <div class="card">
+<h1>Livraison / restitution</h1>
 
-    <h2>Clés</h2>
+<div class="sub">
+Enregistrer l'arrivée puis contrôler les éléments obligatoires.
+</div>
 
-    <label class="check">
+<button class="big red" id="deliverArrival">
+📍 ARRIVÉE À DESTINATION
+</button>
 
-      <input
-        type="checkbox"
-        id="keysPresent"
-        onchange="keysChange()"
-      >
+<div id="delMsg" class="notice">
+Arrivée non enregistrée.
+</div>
 
-      Clés présentes
+<div class="card">
 
-    </label>
+<label>
+Informations véhicule — obligatoires pour terminer
+</label>
+
+<div class="grid">
+
+<input id="brand2" placeholder="Marque">
+<input id="model2" placeholder="Modèle">
+
+</div>
+
+<label>
+Immatriculation
+</label>
+
+<input id="plate2" placeholder="AB-123-CD">
+
+<label>
+Kilométrage <span class="small">(facultatif)</span>
+</label>
+
+<input id="km2" type="number" placeholder="Facultatif">
+
+</div>
 
 
-    <div id="keyPhoto" class="notice hidden">
+<div class="card" id="finalKeyCard">
 
-      Dans la vraie application, une photo des clés sera obligatoire avant clôture.
+<label>
+Clés du véhicule
+</label>
 
-    </div>
+<div id="parkKeyInfo" class="notice hidden"></div>
+
+<div id="finalKeyChoices" class="grid">
+
+<div class="choice" id="keysYes">
+Clés présentes
+</div>
+
+<div class="choice" id="keysNo">
+Pas de clés
+</div>
+
+</div>
+
+<div id="keyPhoto" class="photo hidden" style="margin-top:10px">
+📷<br>AJOUTER LA PHOTO DES CLÉS
+</div>
+
+<div id="keyMsg" class="notice hidden"></div>
+
+</div>
 
 
-    <button onclick="closeMission('Livré')">
-      CLÔTURER LA MISSION
-    </button>
+<div class="card">
 
-    <button class="light" onclick="show('delivery')">
-      Retour
-    </button>
+<label>
+Signature finale
+</label>
 
-  </div>
+<div class="signature" id="finalSig">
+✍️ Appuyer pour simuler la signature du destinataire
+</div>
+
+</div>
+
+</section>
+
+
+<section class="screen" id="s10">
+
+<h1>Fin de mission</h1>
+
+<div class="sub">
+Dossier complet et prêt à être envoyé.
+</div>
+
+<div class="card">
+
+<span class="status">
+TERMINÉE
+</span>
+
+<div id="finalSummary" class="timeline"></div>
+
+</div>
+
+<button class="big red" onclick="alert('Prototype : envoi du rapport PDF par e-mail')">
+✉️ ENVOYER LE RAPPORT
+</button>
+
+<button class="big dark" onclick="location.reload()">
++ NOUVELLE MISSION
+</button>
+
+</section>
+
+
+<section class="screen" id="s11">
+
+<h1>Menu principal</h1>
+
+<div class="sub">
+Que veux-tu faire ?
+</div>
+
+<div class="card">
+
+<button class="big red" id="newMission">
+＋ NOUVELLE INTERVENTION
+</button>
+
+<button class="big dark" id="currentMissions">
+📋 MISSIONS EN COURS
+</button>
+
+<button class="big dark" id="parkMissions">
+🅿️ MISSIONS EN PARC
+</button>
+
+<button class="big dark" id="parkDelivery">
+🚚 LIVRER UN VÉHICULE DU PARC
+</button>
+
+</div>
+
+<div id="parkMenuMsg" class="notice ok">
+La mission en cours est conservée en parc.
+</div>
+
+</section>
+
+
+<section class="screen" id="s12">
+
+<h1>
+Enlèvement par épaviste
+</h1>
+
+<div class="sub">
+La mission se termine par la sortie du véhicule du parc.
+</div>
+
+<div class="card">
+
+<label>
+Nom de l'épaviste / société
+</label>
+
+<input id="wrecker" placeholder="Nom ou société">
+
+<label>
+Date de récupération
+</label>
+
+<input id="wdate" type="date">
+
+<label>
+Heure
+</label>
+
+<input id="wtime" type="time">
+
+<label>
+Observations
+</label>
+
+<textarea id="wobs" placeholder="Informations complémentaires"></textarea>
+
+</div>
+
+<button class="big red" id="wFinish">
+✓ VÉHICULE SORTI DU PARC
+</button>
 
 </section>
 
 </main>
 
 
-<nav id="nav" class="hidden">
+<footer>
 
-  <button onclick="show('home')">
-    Accueil
-  </button>
+<button class="back" id="back">
+← Retour
+</button>
 
-  <button onclick="show('mission')">
-    Mission
-  </button>
+<button class="next" id="next">
+Suivant →
+</button>
 
-  <button onclick="show('client')">
-    Client
-  </button>
+</footer>
 
-  <button onclick="show('vehicle')">
-    Véhicule
-  </button>
-
-  <button onclick="show('settings')">
-    Menu
-  </button>
-
-</nav>
+</div>
 
 
 <script>
 
-let currentUser='';
-let mission=null;
+const st={
+screen:0,
+nature:'',
+type:'',
+start:false,
+arrival:false,
+loaded:false,
+signed:false,
+absent:false,
+dest:'',
+arrival2:false,
+keys:null,
+parkKeys:null,
+keyPhoto:false,
+finalSigned:false,
+events:[],
+userId:'',
+userName:'',
+tariff:'Normal',
+parkStart:null,
+deliveryMode:false
+};
 
-const $=id=>document.getElementById(id);
+const screens=[...document.querySelectorAll('.screen')];
 
-
-function show(id){
-
-  document
-    .querySelectorAll('main>section')
-    .forEach(s=>s.classList.add('hidden'));
-
-  $(id).classList.remove('hidden');
-
-  if(
-    ['home','mission','new','current','park','history','settings']
-    .includes(id)
-    && currentUser
-  ){
-    $('nav').classList.remove('hidden');
-  }
-
-  if(id==='client'||id==='vehicle'){
-    $('mission').classList.remove('hidden');
-  }
-
-  if(id==='home'){
-    $('nav').classList.remove('hidden');
-  }
-
-}
-
-
-function login(){
-
-  currentUser=$('user').value;
-
-  $('userLine').textContent=
-    'Connecté : '+currentUser;
-
-  $('hello').textContent=
-    'Bonjour '+currentUser.split(' — ')[0];
-
-  $('login').classList.add('hidden');
-
-  $('nav').classList.remove('hidden');
-
-  show('home');
-
-}
-
+const total=13;
 
 function now(){
+return new Date().toLocaleString('fr-FR',{
+hour:'2-digit',
+minute:'2-digit',
+day:'2-digit',
+month:'2-digit',
+year:'numeric'
+});
+}
 
-  return new Date().toLocaleString('fr-FR');
+function event(name){
+st.events.push({
+name:name,
+time:now()
+});
+}
+
+function update(){
+
+updateKmCalc();
+
+const ps=st.parkStart||localStorage.getItem('gdcParkStart');
+
+const g=document.getElementById('parkGuardPreview');
+
+if(g&&ps){
+
+const days=Math.max(
+1,
+Math.ceil(
+(Date.now()-new Date(ps).getTime())/86400000
+)
+);
+
+g.textContent=
+`Depuis la mise en parc : ${days} jour(s) — ${days*50} € HT`;
+
+}
+
+syncFinalKeys();
+
+screens.forEach((x,i)=>
+x.classList.toggle('active',i===st.screen)
+);
+
+document.getElementById('stepText').textContent=
+`Étape ${Math.min(st.screen+1,total)} sur ${total}`;
+
+document.getElementById('bar').style.width=
+(Math.min(st.screen,total-1)/(total-1)*100)+'%';
+
+document.getElementById('back').style.display=
+(st.screen===0||st.screen===12)?'none':'block';
+
+document.getElementById('next').style.display=
+(st.screen>=10||st.screen===7||st.screen===12)?'none':'block';
+
+document.getElementById('next').disabled=
+!canNext();
+
+}
+
+function canNext(){
+
+if(st.screen===0)
+return !!st.nature&&!!st.type;
+
+if(st.screen===1)
+return st.arrival;
+
+if(st.screen===2)
+return st.loaded;
+
+if(st.screen===3)
+return true;
+
+if(st.screen===4)
+return st.signed||st.absent;
+
+if(st.screen===5)
+return !!st.dest;
+
+if(st.screen===6)
+return st.arrival2;
+
+return true;
+
+}
+
+function choose(group,el){
+
+document
+.querySelectorAll('#'+group+' .choice')
+.forEach(x=>x.classList.remove('selected'));
+
+el.classList.add('selected');
+
+st[group]=el.dataset.v;
+
+update();
+
+}
+
+document
+.querySelectorAll('#nature .choice')
+.forEach(x=>
+x.onclick=()=>choose('nature',x)
+);
+
+document
+.querySelectorAll('#type .choice')
+.forEach(x=>
+x.onclick=()=>choose('type',x)
+);
+
+document.getElementById('nothing').onclick=()=>{
+
+document
+.querySelectorAll('#type .choice')
+.forEach(x=>x.classList.remove('selected'));
+
+document
+.getElementById('nothing')
+.classList.add('selected');
+
+st.type='Déplacement pour rien';
+
+update();
+
+};
+
+
+document
+.querySelectorAll('#tariffChoice .choice')
+.forEach(x=>
+
+x.onclick=()=>{
+
+document
+.querySelectorAll('#tariffChoice .choice')
+.forEach(y=>y.classList.remove('selected'));
+
+x.classList.add('selected');
+
+st.tariff=x.dataset.v;
+
+update();
+
+});
+
+
+
+function updateKmCalc(){
+
+const a=
+parseFloat(
+document.getElementById('kmGarageAccident')?.value
+)||0;
+
+const b=
+parseFloat(
+document.getElementById('kmAccidentDelivery')?.value
+)||0;
+
+const c=
+parseFloat(
+document.getElementById('kmDeliveryDepot')?.value
+)||0;
+
+const total=
+(st.dest==='Livraison'
+?a+b+c
+:a*2);
+
+const extra=
+Math.max(0,total-20);
+
+const el=
+document.getElementById('kmCalc');
+
+if(el)
+el.innerHTML=
+`<b>${total.toFixed(1)} km</b> au total — 20 km inclus — <b>${extra.toFixed(1)} km supplémentaires</b>`;
+
+}
+
+[
+'kmGarageAccident',
+'kmAccidentDelivery',
+'kmDeliveryDepot'
+].forEach(id=>
+document.getElementById(id)
+?.addEventListener('input',updateKmCalc)
+);
+
+
+document.getElementById('start').onclick=()=>{
+
+st.start=true;
+st.arrival=true;
+
+event(
+'Début de mission / arrivée sur place — GPS enregistré'
+);
+
+document.getElementById('startMsg').textContent=
+'Début de mission enregistré — heure + GPS.';
+
+document.getElementById('startMsg').className=
+'notice ok';
+
+showRate();
+
+update();
+
+};
+
+
+function isMajorated(d){
+
+const day=d.getDay();
+
+const h=
+d.getHours()+d.getMinutes()/60;
+
+if(day===0||day===6)
+return true;
+
+return h>=18||h<8;
 
 }
 
 
-function geo(cb){
+function showRate(){
 
-  if(navigator.geolocation){
+const d=new Date();
 
-    navigator.geolocation.getCurrentPosition(
+const maj=isMajorated(d);
 
-      p=>cb(
-        p.coords.latitude.toFixed(5)
-        +', '
-        +p.coords.longitude.toFixed(5)
-      ),
+const el=document.getElementById('rateMsg');
 
-      ()=>cb('GPS indisponible')
+el.classList.remove('hidden');
 
-    );
+el.className=
+'notice '+(maj?'':'ok');
 
-  }else{
-
-    cb('GPS indisponible');
-
-  }
+el.innerHTML=
+(maj
+?'🔴 <b>FORFAIT MAJORÉ</b>'
+:'🟢 <b>FORFAIT NORMAL</b>')+
+'<br>Calculé selon l’heure d’arrivée sur l’intervention. <span class="small">20 km inclus dans le forfait.</span>';
 
 }
 
 
-function startMission(){
+document
+.querySelectorAll('#photos .photo')
+.forEach(x=>
 
-  mission={
-    events:[],
-    services:[],
-    status:'EN COURS',
-    driver:$('driver').value
-  };
+x.onclick=()=>{
 
-  geo(g=>{
+x.classList.add('done');
 
-    mission.events.push({
+x.innerHTML=
+'✓<br>'+x.dataset.p;
 
-      name:'Départ mission',
-      time:now(),
-      gps:g
+document.getElementById('parkPhotoStatus').textContent=
+'Photo du véhicule déjà enregistrée pendant le dépannage.';
 
-    });
+document.getElementById('parkPhotoStatus').className=
+'notice ok';
 
-    render();
+}
 
-    show('mission');
+);
 
-  });
+
+document.getElementById('parkPhotoBtn').onclick=()=>{
+
+document.getElementById('parkPhotoBtn')
+.classList.add('done');
+
+document.getElementById('parkPhotoBtn')
+.innerHTML=
+'✓<br>Photo du véhicule enregistrée';
+
+document.getElementById('parkPhotoStatus').textContent=
+'Photo du véhicule enregistrée.';
+
+document.getElementById('parkPhotoStatus').className=
+'notice ok';
+
+};
+
+
+document.getElementById('parkKeysYes').onclick=()=>{
+
+st.parkKeys=true;
+
+document.getElementById('parkKeysYes')
+.classList.add('selected');
+
+document.getElementById('parkKeysNo')
+.classList.remove('selected');
+
+document.getElementById('parkKeysStatus').textContent=
+'Clés présentes.';
+
+document.getElementById('parkKeysStatus').className=
+'notice ok';
+
+update();
+
+};
+
+
+document.getElementById('parkKeysNo').onclick=()=>{
+
+st.parkKeys=false;
+
+document.getElementById('parkKeysNo')
+.classList.add('selected');
+
+document.getElementById('parkKeysYes')
+.classList.remove('selected');
+
+document.getElementById('parkKeysStatus').textContent=
+'Pas de clés.';
+
+document.getElementById('parkKeysStatus').className=
+'notice ok';
+
+update();
+
+};
+
+
+document.getElementById('loaded').onclick=()=>{
+
+st.loaded=true;
+
+event(
+'Fin de chargement — GPS enregistré'
+);
+
+document.getElementById('loadMsg').textContent=
+'Fin de chargement enregistrée — heure + GPS.';
+
+document.getElementById('loadMsg').className=
+'notice ok';
+
+update();
+
+};
+
+
+document.getElementById('present').onclick=()=>{
+
+st.absent=false;
+st.signed=false;
+
+document.getElementById('present')
+.classList.add('selected');
+
+document.getElementById('absent')
+.classList.remove('selected');
+
+document.getElementById('absMsg')
+.classList.add('hidden');
+
+update();
+
+};
+
+
+document.getElementById('absent').onclick=()=>{
+
+st.absent=true;
+st.signed=false;
+
+document.getElementById('absent')
+.classList.add('selected');
+
+document.getElementById('present')
+.classList.remove('selected');
+
+document.getElementById('sigArea').innerHTML=
+'<div class="notice">Client absent — motif enregistré. La mission peut continuer.</div>';
+
+update();
+
+};
+
+
+document.getElementById('sig').onclick=()=>{
+
+st.signed=true;
+
+event(
+'Signature de prise en charge'
+);
+
+document.getElementById('sig').textContent=
+'✓ Signature client enregistrée';
+
+document.getElementById('sig').style.color=
+'#166534';
+
+update();
+
+};
+
+
+document.getElementById('toDepot').onclick=()=>{
+
+st.dest='Dépôt';
+st.deliveryMode=false;
+
+updateKmCalc();
+
+st.screen=6;
+
+document.getElementById('arrivalTitle').textContent=
+'Arrivée au dépôt';
+
+update();
+
+};
+
+
+document.getElementById('toDelivery').onclick=()=>{
+
+st.dest='Livraison';
+st.deliveryMode=true;
+
+updateKmCalc();
+
+st.screen=6;
+
+document.getElementById('arrivalTitle').textContent=
+'Arrivée à la livraison';
+
+update();
+
+};
+
+
+document.getElementById('arrivalBtn').onclick=()=>{
+
+st.arrival2=true;
+
+event(
+'Arrivée '+st.dest+' — GPS enregistré'
+);
+
+document.getElementById('arrivalMsg').textContent=
+'Arrivée enregistrée — heure + GPS.';
+
+document.getElementById('arrivalMsg').className=
+'notice ok';
+
+if(st.dest==='Dépôt')
+st.screen=7;
+else
+st.screen=9;
+
+update();
+
+};
+
+
+document.getElementById('parkValidate').onclick=()=>{
+
+const brand=
+document.getElementById('parkBrand');
+
+const model=
+document.getElementById('parkModel');
+
+const plate=
+document.getElementById('parkPlate');
+
+
+if(!brand.value.trim())
+brand.value=
+document.getElementById('brand').value.trim();
+
+if(!model.value.trim())
+model.value=
+document.getElementById('model').value.trim();
+
+if(!plate.value.trim())
+plate.value=
+document.getElementById('plate').value.trim();
+
+
+const hasPhoto=
+[...document.querySelectorAll('#photos .photo.done')].length>0
+||
+document.getElementById('parkPhotoBtn')
+.classList.contains('done');
+
+
+if(
+!brand.value.trim()||
+!model.value.trim()||
+!plate.value.trim()
+){
+
+alert(
+'Avant la mise en parc, la marque, le modèle et l’immatriculation sont obligatoires.'
+);
+
+return;
 
 }
 
 
-function eventStep(name){
+if(!hasPhoto){
 
-  if(!mission){
+alert(
+'Avant la mise en parc, il faut au moins une photo du véhicule.'
+);
 
-    alert('Aucune mission en cours.');
-
-    return;
-
-  }
-
-  geo(g=>{
-
-    mission.events.push({
-
-      name,
-      time:now(),
-      gps:g
-
-    });
-
-    render();
-
-  });
-
-  if(name==='Départ du lieu d’intervention'){
-
-    show('destination');
-
-  }
-
-  if(name.includes('Arrivée au garage')){
-
-    show('keys');
-
-  }
+return;
 
 }
 
 
-function render(){
+if(st.parkKeys===null){
 
-  $('timeline').innerHTML=
+alert(
+'Avant la mise en parc, il faut indiquer si les clés sont présentes ou non.'
+);
 
-    mission.events.map(e=>
-
-      `<div class="step">
-
-        <b>${e.name}</b>
-
-        <br>
-
-        <span class="muted">
-
-          ${e.time} — GPS : ${e.gps}
-
-        </span>
-
-      </div>`
-
-    ).join('');
-
-
-  $('currentText').textContent=
-
-    mission.status
-    +' — '
-    +mission.driver;
+return;
 
 }
 
 
-function toggle(id){
+document.getElementById('brand').value=
+brand.value;
 
-  $(id).classList.toggle('hidden');
+document.getElementById('model').value=
+model.value;
+
+document.getElementById('plate').value=
+plate.value;
+
+
+st.parkStart=
+new Date().toISOString();
+
+localStorage.setItem(
+'gdcParkStart',
+st.parkStart
+);
+
+
+event(
+'Mise en parc — mission mise en pause'
+);
+
+st.screen=11;
+
+update();
+
+};
+
+
+document.getElementById('currentMissions').onclick=()=>{
+
+st.screen=1;
+
+update();
+
+};
+
+
+document.getElementById('parkMissions').onclick=()=>{
+
+st.screen=8;
+
+update();
+
+};
+
+
+document.getElementById('parkDelivery').onclick=()=>{
+
+st.screen=8;
+
+update();
+
+};
+
+
+document.getElementById('newMission').onclick=()=>{
+
+location.reload();
+
+};
+
+
+document.getElementById('transferStart').onclick=()=>{
+
+event(
+'Départ du parc — GPS enregistré'
+);
+
+st.screen=9;
+
+document.getElementById('delMsg').textContent=
+'Départ du parc enregistré — choisir puis valider l’arrivée.';
+
+document.getElementById('delMsg').className=
+'notice ok';
+
+update();
+
+};
+
+
+document.getElementById('deliverArrival').onclick=()=>{
+
+st.arrival2=true;
+
+event(
+'Arrivée livraison — GPS enregistré'
+);
+
+document.getElementById('delMsg').textContent=
+'Arrivée enregistrée — heure + GPS.';
+
+document.getElementById('delMsg').className=
+'notice ok';
+
+update();
+
+};
+
+
+document.getElementById('keysYes').onclick=()=>{
+
+st.keys=true;
+
+document.getElementById('keysYes')
+.classList.add('selected');
+
+document.getElementById('keysNo')
+.classList.remove('selected');
+
+document.getElementById('keyPhoto')
+.classList.remove('hidden');
+
+document.getElementById('keyMsg').textContent=
+'Photo des clés obligatoire pour terminer.';
+
+document.getElementById('keyMsg')
+.classList.remove('hidden');
+
+update();
+
+};
+
+
+document.getElementById('keysNo').onclick=()=>{
+
+st.keys=false;
+st.keyPhoto=false;
+
+document.getElementById('keysNo')
+.classList.add('selected');
+
+document.getElementById('keysYes')
+.classList.remove('selected');
+
+document.getElementById('keyPhoto')
+.classList.add('hidden');
+
+document.getElementById('keyMsg').textContent=
+'Aucune photo de clés demandée.';
+
+document.getElementById('keyMsg').className=
+'notice ok';
+
+document.getElementById('keyMsg')
+.classList.remove('hidden');
+
+update();
+
+};
+
+
+document.getElementById('keyPhoto').onclick=()=>{
+
+st.keyPhoto=true;
+
+document.getElementById('keyPhoto')
+.classList.add('done');
+
+document.getElementById('keyPhoto').innerHTML=
+'✓<br>Photo des clés enregistrée';
+
+update();
+
+};
+
+
+document.getElementById('finalSig').onclick=()=>{
+
+st.finalSigned=true;
+
+document.getElementById('finalSig').textContent=
+'✓ Signature finale enregistrée';
+
+document.getElementById('finalSig').style.color=
+'#166534';
+
+update();
+
+};
+
+
+function validFinal(){
+
+return
+st.arrival2&&
+document.getElementById('brand2').value&&
+document.getElementById('model2').value&&
+document.getElementById('plate2').value&&
+st.finalSigned&&
+st.keys!==null&&
+(st.keys?st.keyPhoto:true);
 
 }
 
 
-function saveServices(){
+document.getElementById('next').onclick=()=>{
 
-  mission.services=[
+if(st.screen===9){
 
-    ...document.querySelectorAll(
-      '#services input:checked'
-    )
+if(!validFinal()){
 
-  ].map(x=>x.value);
+alert(
+'Pour terminer : marque, modèle, immatriculation, signature finale et statut des clés sont obligatoires. Si les clés sont présentes, leur photo est obligatoire.'
+);
 
-  show('mission');
+return;
+
+}
+
+syncVehicle();
+
+st.screen=10;
+
+buildSummary();
+
+}
+
+else if(canNext()){
+
+st.screen++;
+
+update();
+
+}
+
+};
+
+
+document.getElementById('back').onclick=()=>{
+
+if(st.screen>0){
+
+st.screen--;
+
+update();
+
+}
+
+};
+
+
+function syncFinalKeys(){
+
+const card=
+document.getElementById('finalKeyCard');
+
+const info=
+document.getElementById('parkKeyInfo');
+
+const choices=
+document.getElementById('finalKeyChoices');
+
+if(!card)
+return;
+
+
+if(st.parkKeys!==null){
+
+choices.classList.add('hidden');
+
+info.classList.remove('hidden');
+
+info.className=
+'notice ok';
+
+info.textContent=
+st.parkKeys
+?'Clés présentes — statut déjà validé à la mise en parc.'
+:'Pas de clés — statut déjà validé à la mise en parc.';
+
+st.keys=
+st.parkKeys;
+
+}
+
+else{
+
+choices.classList.remove('hidden');
+
+info.classList.add('hidden');
+
+}
 
 }
 
 
-function sign(present){
+function syncVehicle(){
 
-  if(present){
+document.getElementById('brand2').value=
+document.getElementById('brand').value||
+document.getElementById('brand2').value;
 
-    mission.signature=
-      'Signature client — '+now();
+document.getElementById('model2').value=
+document.getElementById('model').value||
+document.getElementById('model2').value;
 
-    alert(
-      'Signature enregistrée (prototype).'
-    );
+document.getElementById('plate2').value=
+document.getElementById('plate').value||
+document.getElementById('plate2').value;
 
-    show('mission');
-
-  }else{
-
-    $('absence').classList.remove('hidden');
-
-  }
-
-}
-
-
-function saveAbsence(){
-
-  mission.signature=
-    'Client absent — '
-    +(
-      $('absenceReason').value
-      ||'Motif non renseigné'
-    );
-
-  show('mission');
+document.getElementById('km2').value=
+document.getElementById('km').value||
+document.getElementById('km2').value;
 
 }
 
 
-function destChange(){
+function buildSummary(){
 
-  $('deliveryBox').classList.toggle(
+const p=
+[...document.querySelectorAll('#s4 input:checked')]
+.map(x=>x.value)
+.join(', ')||'Aucune';
 
-    'hidden',
+const a=
+parseFloat(document.getElementById('kmGarageAccident')?.value)||0;
 
-    $('destType').value
-    !=='Départ vers livraison'
+const b=
+parseFloat(document.getElementById('kmAccidentDelivery')?.value)||0;
 
-  );
+const c=
+parseFloat(document.getElementById('kmDeliveryDepot')?.value)||0;
 
-}
+const totalKm=
+st.dest==='Livraison'
+?a+b+c
+:a*2;
 
+const extraKm=
+Math.max(0,totalKm-20);
 
-function chooseDestination(){
+const days=
+st.parkStart
+?Math.max(
+1,
+Math.ceil(
+(Date.now()-new Date(st.parkStart).getTime())/86400000
+)
+)
+:0;
 
-  mission.destination=
-    $('destType').value;
+const guard=
+days*50;
 
-  if(
-    $('destType').value
-    ==='Départ vers dépôt'
-  ){
+document.getElementById('finalSummary').innerHTML=
 
-    eventStep('Départ vers dépôt');
+`<div class="event">
+<b>Nature</b>
+<small>${st.nature}</small>
+</div>
 
-    show('mission');
+<div class="event">
+<b>Type</b>
+<small>${st.type}</small>
+</div>
 
-    setTimeout(()=>{
+<div class="event">
+<b>Tarification</b>
+<small>${st.tariff} — 20 km inclus</small>
+</div>
 
-      eventStep('Arrivée dépôt');
+<div class="event">
+<b>Kilométrage total</b>
+<small>${totalKm.toFixed(1)} km</small>
+</div>
 
-      mission.status='EN PARC';
+<div class="event">
+<b>Km supplémentaires</b>
+<small>${extraKm.toFixed(1)} km</small>
+</div>
 
-      render();
+<div class="event">
+<b>Gardiennage</b>
+<small>${days?days+' jour(s) — '+guard+' € HT':'Pas de gardiennage'}</small>
+</div>
 
-      show('park');
+<div class="event">
+<b>Client</b>
+<small>${document.getElementById('client').value||'—'}</small>
+</div>
 
-    },200);
+<div class="event">
+<b>Véhicule</b>
+<small>${document.getElementById('brand2').value} ${document.getElementById('model2').value} — ${document.getElementById('plate2').value}</small>
+</div>
 
-  }else{
+<div class="event">
+<b>Destination</b>
+<small>${st.dest}</small>
+</div>
 
-    eventStep('Départ vers livraison');
+<div class="event">
+<b>Prestations</b>
+<small>${p}</small>
+</div>
 
-    show('delivery');
+<div class="event">
+<b>Clés</b>
+<small>${st.keys?'Présentes — photo enregistrée':'Pas de clés'}</small>
+</div>`;
 
-  }
-
-}
-
-
-function resumeMission(){
-
-  if(mission){
-
-    mission.status=
-      'REPRISE DEPUIS LE PARC';
-
-    render();
-
-    eventStep('Départ du parc');
-
-    show('delivery');
-
-  }else{
-
-    alert(
-      'Aucune mission en parc.'
-    );
-
-  }
-
-}
-
-
-function keysChange(){
-
-  $('keyPhoto').classList.toggle(
-
-    'hidden',
-
-    !$('keysPresent').checked
-
-  );
-
-}
-
-
-function closeMission(status){
-
-  if(!mission)return;
-
-  if(
-    $('keysPresent')?.checked
-    && !$('keyPhoto')
-  )return;
-
-  mission.status=
-    'TERMINÉE — '+status;
-
-  render();
-
-  alert(
-    'Mission clôturée dans le prototype.'
-  );
-
-  show('home');
+update();
 
 }
+
+
+document.getElementById('wFinish').onclick=()=>{
+
+event(
+'Véhicule sorti du parc — épaviste : '+
+(document.getElementById('wrecker').value||'non renseigné')
+);
+
+st.screen=10;
+
+document.getElementById('finalSummary').innerHTML=
+
+`<div class="event">
+<b>Statut</b>
+<small>Véhicule sorti du parc</small>
+</div>
+
+<div class="event">
+<b>Épaviste / société</b>
+<small>${document.getElementById('wrecker').value||'—'}</small>
+</div>
+
+<div class="event">
+<b>Date / heure</b>
+<small>${document.getElementById('wdate').value||'—'} ${document.getElementById('wtime').value||''}</small>
+</div>`;
+
+update();
+
+};
+
+
+update();
 
 </script>
 
 </body>
-</html>
+  </html>
