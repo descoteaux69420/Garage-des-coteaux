@@ -2,35 +2,404 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Garage des Coteaux - Dépannage</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f2f2f2;font-family:Arial;color:#111}
-.app{max-width:520px;margin:auto;min-height:100vh;background:#fff}
-header{background:#111;color:#fff;padding:18px;position:sticky;top:0;z-index:5}
-header b{font-size:19px}.step{font-size:12px;color:#bbb;margin-top:6px}
-.bar{height:5px;background:#c91525;border-radius:5px;margin-top:10px;width:0}
-main{padding:18px}.screen{display:none}.screen.active{display:block}
-h1{font-size:25px;margin:0 0 7px}.sub{color:#666;font-size:14px;margin-bottom:18px}
-.card{border:1px solid #ddd;border-radius:14px;padding:15px;margin:12px 0}
-label{display:block;font-weight:bold;font-size:13px;margin:12px 0 6px}
-input,textarea{width:100%;padding:13px;border:1px solid #ccc;border-radius:10px;font-size:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.choice{border:2px solid #ddd;border-radius:11px;padding:14px 8px;text-align:center;font-weight:bold;background:white}
-.choice.sel{border-color:#c91525;background:#fff0f2}
-.big{width:100%;border:0;border-radius:12px;padding:17px;margin:7px 0;font-size:17px;font-weight:bold}
-.red{background:#c91525;color:white}.dark{background:#111;color:white}.gray{background:#ddd}
-.notice{padding:12px;border-radius:10px;background:#fff4e5;margin:10px 0;font-size:14px}
-.ok{background:#e8f7ed;color:#176b32}
-.check{padding:12px 0;border-bottom:1px solid #eee;font-weight:bold}
-.check input{width:20px;margin-right:8px}
-.photo{border:2px dashed #bbb;border-radius:10px;padding:18px;text-align:center;margin:8px 0}
-.done{border-color:#222;background:#f4f4f4}
-.signature{height:150px;border:2px dashed #999;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;color:#777}
-.timeline{border-left:3px solid #ccc;padding-left:14px;margin:15px 0}
-.event{padding:8px 0}.event small{color:#666}
-footer{position:sticky;bottom:0;background:white;border-top:1px solid #ddd;padding:10px;display:flex;gap:8px}
-footer button{border:0;border-radius:11px;padding:14px;font-weight:bold}
-.back{background:#ddd}.next{flex:1;background:#c91525;color:white}
-.next:disabled{background:#aaa}
-.menu{position:fixed;right:15px;top:65px;background:white;border:1px solid #ddd;border-radius:12
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#f2f2f2;
+  font-family:Arial,sans-serif;
+  color:#111;
+}
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  background:white;
+}
+header{
+  background:#111;
+  color:white;
+  padding:18px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+header h2{
+  margin:0;
+  font-size:20px;
+}
+.step{
+  color:#bbb;
+  font-size:13px;
+  margin-top:5px;
+}
+.progress{
+  height:5px;
+  background:#333;
+  margin-top:10px;
+  border-radius:5px;
+}
+.progress div{
+  height:100%;
+  width:20%;
+  background:#c91525;
+  border-radius:5px;
+}
+main{padding:18px}
+.screen{display:none}
+.screen.active{display:block}
+h1{
+  font-size:25px;
+  margin:0 0 8px;
+}
+.sub{
+  color:#666;
+  font-size:14px;
+  margin-bottom:20px;
+}
+.card{
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:15px;
+  margin:12px 0;
+}
+label{
+  display:block;
+  font-weight:bold;
+  font-size:14px;
+  margin:14px 0 6px;
+}
+input,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+}
+textarea{min-height:90px}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.choice{
+  border:2px solid #ddd;
+  border-radius:11px;
+  padding:15px 8px;
+  text-align:center;
+  font-weight:bold;
+  background:white;
+  cursor:pointer;
+}
+.choice.selected{
+  border-color:#c91525;
+  background:#fff0f2;
+}
+button{
+  border:0;
+  border-radius:11px;
+  padding:15px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.big{
+  width:100%;
+  margin:8px 0;
+}
+.red{
+  background:#c91525;
+  color:white;
+}
+.dark{
+  background:#111;
+  color:white;
+}
+.gray{
+  background:#ddd;
+  color:#111;
+}
+.notice{
+  padding:13px;
+  border-radius:10px;
+  background:#fff4e5;
+  margin:12px 0;
+  font-size:14px;
+}
+.success{
+  background:#e8f7ed;
+  color:#176b32;
+}
+.check{
+  padding:13px 0;
+  border-bottom:1px solid #eee;
+}
+.check input{
+  width:20px;
+  margin-right:8px;
+}
+.photo{
+  border:2px dashed #aaa;
+  border-radius:10px;
+  padding:20px;
+  text-align:center;
+  margin:10px 0;
+}
+footer{
+  position:sticky;
+  bottom:0;
+  background:white;
+  border-top:1px solid #ddd;
+  padding:10px;
+  display:flex;
+  gap:8px;
+}
+footer button:first-child{
+  width:100px;
+}
+footer button:last-child{
+  flex:1;
+}
+.summary{
+  background:#f6f6f6;
+  border-radius:12px;
+  padding:15px;
+  line-height:1.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <h2>Garage des Coteaux - Dépannage</h2>
+  <div class="step" id="stepText">Étape 1 sur 5</div>
+  <div class="progress">
+    <div id="progressBar"></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ÉTAPE 1 -->
+<section class="screen active" id="screen1">
+<h1>Nouvelle intervention</h1>
+<div class="sub">Créer une nouvelle fiche de dépannage</div>
+
+<div class="card">
+<label>Dépanneur</label>
+
+<div class="grid">
+<div class="choice" onclick="selectChoice(this,'depanneur','Kevin')">Kevin</div>
+<div class="choice" onclick="selectChoice(this,'depanneur','Nico')">Nico</div>
+</div>
+
+<label>Nature de l'intervention</label>
+
+<div class="grid">
+<div class="choice" onclick="selectChoice(this,'nature','Police')">Police</div>
+<div class="choice" onclick="selectChoice(this,'nature','Autoroute')">Autoroute</div>
+<div class="choice" onclick="selectChoice(this,'nature','Client')">Client</div>
+<div class="choice" onclick="selectChoice(this,'nature','Garage')">Garage</div>
+</div>
+</div>
+</section>
+
+<!-- ÉTAPE 2 -->
+<section class="screen" id="screen2">
+<h1>Véhicule</h1>
+<div class="sub">Informations sur le véhicule dépanné</div>
+
+<div class="card">
+<label>Marque</label>
+<input id="marque" placeholder="Ex : Renault">
+
+<label>Modèle</label>
+<input id="modele" placeholder="Ex : Clio 5">
+
+<label>Immatriculation</label>
+<input id="immat" placeholder="AA-123-AA" style="text-transform:uppercase">
+
+<label>Kilométrage</label>
+<input id="km" type="number" placeholder="Ex : 125000">
+</div>
+</section>
+
+<!-- ÉTAPE 3 -->
+<section class="screen" id="screen3">
+<h1>Client</h1>
+<div class="sub">Coordonnées et lieu d'intervention</div>
+
+<div class="card">
+<label>Nom du client</label>
+<input id="client" placeholder="Nom et prénom">
+
+<label>Téléphone</label>
+<input id="telephone" type="tel" placeholder="06 00 00 00 00">
+
+<label>Adresse / lieu de dépannage</label>
+<input id="adresse" placeholder="Adresse">
+
+<label>Observations</label>
+<textarea id="observations" placeholder="Informations complémentaires..."></textarea>
+</div>
+</section>
+
+<!-- ÉTAPE 4 -->
+<section class="screen" id="screen4">
+<h1>Contrôle</h1>
+<div class="sub">Vérifications avant clôture</div>
+
+<div class="card">
+
+<div class="check">
+<label style="display:inline">
+<input type="checkbox" id="controle1">
+Véhicule contrôlé
+</label>
+</div>
+
+<div class="check">
+<label style="display:inline">
+<input type="checkbox" id="controle2">
+Véhicule sécurisé
+</label>
+</div>
+
+<div class="check">
+<label style="display:inline">
+<input type="checkbox" id="controle3">
+Photos prises si nécessaire
+</label>
+</div>
+
+<div class="photo">
+📷<br><br>
+<strong>Photos du véhicule</strong><br>
+Ajout possible ultérieurement
+</div>
+
+</div>
+</section>
+
+<!-- ÉTAPE 5 -->
+<section class="screen" id="screen5">
+<h1>Récapitulatif</h1>
+<div class="sub">Vérifie les informations avant de terminer</div>
+
+<div class="summary" id="summary"></div>
+
+<div class="notice success">
+<strong>Intervention prête à être enregistrée.</strong>
+</div>
+
+<button class="big red" onclick="finish()">✓ Terminer l'intervention</button>
+</section>
+
+</main>
+
+<footer>
+<button class="gray" id="backBtn" onclick="previousStep()" style="display:none">
+Retour
+</button>
+
+<button class="red" id="nextBtn" onclick="nextStep()">
+Continuer
+</button>
+</footer>
+
+</div>
+
+<script>
+
+let step=1;
+
+let data={
+  depanneur:"",
+  nature:""
+};
+
+function selectChoice(element,type,value){
+
+  element.parentElement.querySelectorAll(".choice")
+    .forEach(x=>x.classList.remove("selected"));
+
+  element.classList.add("selected");
+
+  data[type]=value;
+}
+
+function showStep(){
+
+  document.querySelectorAll(".screen")
+    .forEach(s=>s.classList.remove("active"));
+
+  document.getElementById("screen"+step)
+    .classList.add("active");
+
+  document.getElementById("stepText").textContent=
+    "Étape "+step+" sur 5";
+
+  document.getElementById("progressBar").style.width=
+    (step*20)+"%";
+
+  document.getElementById("backBtn").style.display=
+    step===1 ? "none" : "block";
+
+  document.getElementById("nextBtn").style.display=
+    step===5 ? "none" : "block";
+
+  if(step===5){
+    createSummary();
+  }
+}
+
+function nextStep(){
+
+  if(step===1){
+
+    if(!data.depanneur){
+      alert("Sélectionne le dépanneur.");
+      return;
+    }
+
+    if(!data.nature){
+      alert("Sélectionne la nature de l'intervention.");
+      return;
+    }
+  }
+
+  if(step===2){
+
+    if(!document.getElementById("marque").value ||
+       !document.getElementById("modele").value ||
+       !document.getElementById("immat").value){
+
+      alert("Renseigne au minimum la marque, le modèle et l'immatriculation.");
+      return;
+    }
+  }
+
+  if(step<5){
+    step++;
+    showStep();
+  }
+}
+
+function previousStep(){
+
+  if(step>1){
+    step--;
+    showStep();
+  }
+}
+
+function createSummary(){
+
+  let marque=document.getElementById("marque").value;
+  let modele=document.getElementById("modele").
