@@ -2,447 +2,975 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garage des Coteaux - Dépannage</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Garage des Coteaux — Dépannage</title>
 <style>
+:root{--red:#c40000;--dark:#111;--bg:#f3f3f3;--card:#fff;--muted:#666}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  background:#f2f2f2;
-  font-family:Arial,sans-serif;
-  color:#111;
-}
-.app{
-  max-width:520px;
-  margin:auto;
-  min-height:100vh;
-  background:white;
-}
-header{
-  background:#111;
-  color:white;
-  padding:18px;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-header h2{
-  margin:0;
-  font-size:20px;
-}
-.step{
-  color:#bbb;
-  font-size:13px;
-  margin-top:5px;
-}
-.progress{
-  height:5px;
-  background:#333;
-  margin-top:10px;
-  border-radius:5px;
-}
-.progress div{
-  height:100%;
-  width:20%;
-  background:#c91525;
-  border-radius:5px;
-}
-main{padding:18px}
-.screen{display:none}
-.screen.active{display:block}
-h1{
-  font-size:25px;
-  margin:0 0 8px;
-}
-.sub{
-  color:#666;
-  font-size:14px;
-  margin-bottom:20px;
-}
-.card{
-  border:1px solid #ddd;
-  border-radius:14px;
-  padding:15px;
-  margin:12px 0;
-}
-label{
-  display:block;
-  font-weight:bold;
-  font-size:14px;
-  margin:14px 0 6px;
-}
-input,textarea{
-  width:100%;
-  padding:13px;
-  border:1px solid #ccc;
-  border-radius:10px;
-  font-size:16px;
-}
-textarea{min-height:90px}
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.choice{
-  border:2px solid #ddd;
-  border-radius:11px;
-  padding:15px 8px;
-  text-align:center;
-  font-weight:bold;
-  background:white;
-  cursor:pointer;
-}
-.choice.selected{
-  border-color:#c91525;
-  background:#fff0f2;
-}
-button{
-  border:0;
-  border-radius:11px;
-  padding:15px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.big{
-  width:100%;
-  margin:8px 0;
-}
-.red{
-  background:#c91525;
-  color:white;
-}
-.dark{
-  background:#111;
-  color:white;
-}
-.gray{
-  background:#ddd;
-  color:#111;
-}
-.notice{
-  padding:13px;
-  border-radius:10px;
-  background:#fff4e5;
-  margin:12px 0;
-  font-size:14px;
-}
-.success{
-  background:#e8f7ed;
-  color:#176b32;
-}
-.check{
-  padding:13px 0;
-  border-bottom:1px solid #eee;
-}
-.check input{
-  width:20px;
-  margin-right:8px;
-}
-.photo{
-  border:2px dashed #aaa;
-  border-radius:10px;
-  padding:20px;
-  text-align:center;
-  margin:10px 0;
-}
-footer{
-  position:sticky;
-  bottom:0;
-  background:white;
-  border-top:1px solid #ddd;
-  padding:10px;
-  display:flex;
-  gap:8px;
-}
-footer button:first-child{
-  width:100px;
-}
-footer button:last-child{
-  flex:1;
-}
-.summary{
-  background:#f6f6f6;
-  border-radius:12px;
-  padding:15px;
-  line-height:1.7;
-}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#171717}
+header{background:var(--dark);color:#fff;padding:16px;position:sticky;top:0;z-index:5}
+header h1{font-size:20px;margin:0 0 4px}
+header small{opacity:.8}
+main{max-width:680px;margin:auto;padding:14px 14px 90px}
+.card{background:var(--card);border-radius:14px;padding:18px;margin:12px 0;box-shadow:0 2px 8px #0001}
+h2{font-size:20px;margin:0 0 14px}
+.muted{color:var(--muted);font-size:14px}
+button,select,input,textarea{font:inherit}
+button{width:100%;padding:15px;border:0;border-radius:10px;background:var(--red);color:white;font-weight:700;margin:6px 0;font-size:16px}
+button.dark{background:#222}
+button.light{background:#e9e9e9;color:#111}
+button.small{width:auto;padding:10px 13px;font-size:14px}
+label{display:block;font-weight:700;margin:12px 0 5px}
+select,input,textarea{width:100%;padding:13px;border:1px solid #ccc;border-radius:9px;background:white}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.hidden{display:none}
+.step{border-left:4px solid var(--red);padding:10px 12px;margin:8px 0;background:#fafafa;border-radius:7px}
+.check{display:flex;gap:10px;align-items:center;padding:11px 0}
+.check input{width:20px;height:20px}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.badge{display:inline-block;background:#eee;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:700}
+.badge.red{background:#fee;color:#a00000}
+nav{position:fixed;bottom:0;left:0;right:0;background:#111;padding:8px;display:flex;gap:7px;z-index:6}
+nav button{margin:0;padding:11px 6px;font-size:12px;background:#333}
+nav button.active{background:var(--red)}
+.notice{padding:11px;border-radius:9px;background:#fff4d6;margin:10px 0;font-size:14px}
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
 <header>
-  <h2>Garage des Coteaux - Dépannage</h2>
-  <div class="step" id="stepText">Étape 1 sur 5</div>
-  <div class="progress">
-    <div id="progressBar"></div>
-  </div>
+  <h1>GARAGE DES COTEAUX</h1>
+  <small id="userLine">Application dépannage</small>
 </header>
 
 <main>
 
-<!-- ÉTAPE 1 -->
-<section class="screen active" id="screen1">
-<h1>Nouvelle intervention</h1>
-<div class="sub">Créer une nouvelle fiche de dépannage</div>
+<section id="login" class="card">
+  <h2>Connexion</h2>
+  <p class="muted">Accès réservé au Garage des Coteaux</p>
 
-<div class="card">
-<label>Dépanneur</label>
+  <label>Utilisateur</label>
 
-<div class="grid">
-<div class="choice" onclick="selectChoice(this,'depanneur','Kevin')">Kevin</div>
-<div class="choice" onclick="selectChoice(this,'depanneur','Nico')">Nico</div>
-</div>
+  <select id="user">
+    <option>Nicolas — Administrateur</option>
+    <option>Kevin — Dépanneur</option>
+    <option>Nico — Dépanneur</option>
+  </select>
 
-<label>Nature de l'intervention</label>
-
-<div class="grid">
-<div class="choice" onclick="selectChoice(this,'nature','Police')">Police</div>
-<div class="choice" onclick="selectChoice(this,'nature','Autoroute')">Autoroute</div>
-<div class="choice" onclick="selectChoice(this,'nature','Client')">Client</div>
-<div class="choice" onclick="selectChoice(this,'nature','Garage')">Garage</div>
-</div>
-</div>
+  <button onclick="login()">SE CONNECTER</button>
 </section>
 
-<!-- ÉTAPE 2 -->
-<section class="screen" id="screen2">
-<h1>Véhicule</h1>
-<div class="sub">Informations sur le véhicule dépanné</div>
 
-<div class="card">
-<label>Marque</label>
-<input id="marque" placeholder="Ex : Renault">
+<section id="home" class="hidden">
 
-<label>Modèle</label>
-<input id="modele" placeholder="Ex : Clio 5">
+  <div class="card">
 
-<label>Immatriculation</label>
-<input id="immat" placeholder="AA-123-AA" style="text-transform:uppercase">
+    <div class="toprow">
 
-<label>Kilométrage</label>
-<input id="km" type="number" placeholder="Ex : 125000">
-</div>
+      <div>
+        <h2 id="hello">Bonjour</h2>
+        <div class="muted">Garage des Coteaux</div>
+      </div>
+
+      <span class="badge red">CONNECTÉ</span>
+
+    </div>
+
+    <button onclick="show('new')">
+      + NOUVELLE INTERVENTION
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Missions</h2>
+
+    <button class="dark" onclick="show('current')">
+      Missions en cours
+    </button>
+
+    <button class="dark" onclick="show('park')">
+      Missions en parc
+    </button>
+
+    <button class="dark" onclick="show('history')">
+      Missions terminées
+    </button>
+
+    <button class="light" onclick="show('settings')">
+      Paramètres
+    </button>
+
+  </div>
+
 </section>
 
-<!-- ÉTAPE 3 -->
-<section class="screen" id="screen3">
-<h1>Client</h1>
-<div class="sub">Coordonnées et lieu d'intervention</div>
 
-<div class="card">
-<label>Nom du client</label>
-<input id="client" placeholder="Nom et prénom">
+<section id="new" class="hidden">
 
-<label>Téléphone</label>
-<input id="telephone" type="tel" placeholder="06 00 00 00 00">
+  <div class="card">
 
-<label>Adresse / lieu de dépannage</label>
-<input id="adresse" placeholder="Adresse">
+    <h2>Nouvelle intervention</h2>
 
-<label>Observations</label>
-<textarea id="observations" placeholder="Informations complémentaires..."></textarea>
-</div>
+    <label>Nature de l’intervention</label>
+
+    <select id="nature">
+      <option>Police</option>
+      <option>Autoroute</option>
+      <option>Client</option>
+      <option>Garage</option>
+    </select>
+
+
+    <label>Type de dépannage</label>
+
+    <select id="type">
+      <option>Dépannage sur place</option>
+      <option>Remorquage</option>
+      <option>Déplacement pour rien</option>
+    </select>
+
+
+    <label>Dépanneur</label>
+
+    <select id="driver">
+      <option>Kevin</option>
+      <option>Nico</option>
+    </select>
+
+
+    <div class="notice">
+      Les informations client et véhicule pourront être complétées plus tard.
+      Elles seront demandées avant la clôture si nécessaires.
+    </div>
+
+
+    <button onclick="startMission()">
+      DÉPART MISSION — heure + GPS
+    </button>
+
+    <button class="light" onclick="show('home')">
+      Retour
+    </button>
+
+  </div>
+
 </section>
 
-<!-- ÉTAPE 4 -->
-<section class="screen" id="screen4">
-<h1>Contrôle</h1>
-<div class="sub">Vérifications avant clôture</div>
 
-<div class="card">
+<section id="mission" class="hidden">
 
-<div class="check">
-<label style="display:inline">
-<input type="checkbox" id="controle1">
-Véhicule contrôlé
-</label>
-</div>
+  <div class="card">
 
-<div class="check">
-<label style="display:inline">
-<input type="checkbox" id="controle2">
-Véhicule sécurisé
-</label>
-</div>
+    <div class="toprow">
 
-<div class="check">
-<label style="display:inline">
-<input type="checkbox" id="controle3">
-Photos prises si nécessaire
-</label>
-</div>
+      <h2>Mission en cours</h2>
 
-<div class="photo">
-📷<br><br>
-<strong>Photos du véhicule</strong><br>
-Ajout possible ultérieurement
-</div>
+      <span id="statusBadge" class="badge red">
+        EN COURS
+      </span>
 
-</div>
+    </div>
+
+    <div id="timeline"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Informations</h2>
+
+
+    <button class="dark" onclick="toggle('client')">
+      Informations client
+    </button>
+
+
+    <div id="client" class="hidden">
+
+      <label>Nom / société</label>
+      <input id="clientName" placeholder="À compléter">
+
+      <label>Téléphone</label>
+      <input id="clientPhone" placeholder="À compléter" inputmode="tel">
+
+      <label>Adresse</label>
+      <input id="clientAddress" placeholder="À compléter">
+
+    </div>
+
+
+    <button class="dark" onclick="toggle('vehicle')">
+      Informations véhicule
+    </button>
+
+
+    <div id="vehicle" class="hidden">
+
+      <label>Marque</label>
+      <input id="make" placeholder="Ex. Renault">
+
+      <label>Modèle</label>
+      <input id="model" placeholder="Ex. Clio">
+
+      <label>Immatriculation</label>
+      <input id="plate" placeholder="AA-123-AA">
+
+      <label>Kilométrage (facultatif)</label>
+      <input id="km" placeholder="Facultatif" inputmode="numeric">
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Étapes terrain</h2>
+
+    <button onclick="eventStep('Arrivée sur place')">
+      ARRIVÉE SUR PLACE — heure + GPS
+    </button>
+
+    <button onclick="eventStep('Fin de chargement')">
+      FIN DE CHARGEMENT — heure + GPS
+    </button>
+
+    <button onclick="show('services')">
+      PRESTATIONS
+    </button>
+
+    <button onclick="show('signature')">
+      SIGNATURE / CLIENT ABSENT
+    </button>
+
+    <button onclick="eventStep('Départ du lieu d’intervention')">
+      DÉPART DU LIEU — heure + GPS
+    </button>
+
+    <button onclick="show('destination')">
+      CHOISIR LA DESTINATION
+    </button>
+
+  </div>
+
 </section>
 
-<!-- ÉTAPE 5 -->
-<section class="screen" id="screen5">
-<h1>Récapitulatif</h1>
-<div class="sub">Vérifie les informations avant de terminer</div>
 
-<div class="summary" id="summary"></div>
+<section id="services" class="hidden">
 
-<div class="notice success">
-<strong>Intervention prête à être enregistrée.</strong>
-</div>
+  <div class="card">
 
-<button class="big red" onclick="finish()">✓ Terminer l'intervention</button>
+    <h2>Prestations</h2>
+
+    <label class="check">
+      <input type="checkbox" value="Treuillage">
+      Treuillage
+    </label>
+
+    <label class="check">
+      <input type="checkbox" value="Grutage">
+      Grutage
+    </label>
+
+    <label class="check">
+      <input type="checkbox" value="Nettoyage de la chaussée">
+      Nettoyage de la chaussée
+    </label>
+
+    <label class="check">
+      <input type="checkbox" value="Attente sur place">
+      Attente sur place
+    </label>
+
+    <button onclick="saveServices()">
+      ENREGISTRER
+    </button>
+
+    <button class="light" onclick="show('mission')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="signature" class="hidden">
+
+  <div class="card">
+
+    <h2>Prise en charge</h2>
+
+    <button onclick="sign(true)">
+      CLIENT PRÉSENT — SIGNATURE
+    </button>
+
+    <button class="dark" onclick="sign(false)">
+      CLIENT ABSENT / IMPOSSIBLE DE FAIRE SIGNER
+    </button>
+
+
+    <div id="absence" class="hidden">
+
+      <label>Motif</label>
+
+      <textarea
+        id="absenceReason"
+        placeholder="Ex. véhicule sans occupant, client absent..."
+      ></textarea>
+
+      <button onclick="saveAbsence()">
+        ENREGISTRER LE MOTIF
+      </button>
+
+    </div>
+
+
+    <button class="light" onclick="show('mission')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="destination" class="hidden">
+
+  <div class="card">
+
+    <h2>Destination</h2>
+
+    <label>Choix</label>
+
+    <select id="destType" onchange="destChange()">
+      <option>Départ vers dépôt</option>
+      <option>Départ vers livraison</option>
+    </select>
+
+
+    <div id="deliveryBox" class="hidden">
+
+      <label>Adresse de livraison</label>
+
+      <input
+        id="deliveryAddress"
+        placeholder="Garage / client"
+      >
+
+    </div>
+
+
+    <button onclick="chooseDestination()">
+      VALIDER LA DESTINATION
+    </button>
+
+    <button class="light" onclick="show('mission')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="park" class="hidden">
+
+  <div class="card">
+
+    <h2>Missions en parc</h2>
+
+    <p class="muted">
+      Une mission mise en parc reste ouverte et peut être reprise plus tard.
+    </p>
+
+    <button onclick="resumeMission()">
+      REPRENDRE LA MISSION
+    </button>
+
+    <button class="dark" onclick="show('parkExit')">
+      ENLÈVEMENT PAR ÉPAVISTE / DÉPANNEUR
+    </button>
+
+    <button class="light" onclick="show('home')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="parkExit" class="hidden">
+
+  <div class="card">
+
+    <h2>Sortie du parc</h2>
+
+    <label>Type</label>
+
+    <select>
+      <option>Épaviste</option>
+      <option>Dépanneur</option>
+    </select>
+
+
+    <label>Nom / société</label>
+
+    <input placeholder="Nom ou société">
+
+
+    <label class="check">
+      <input type="checkbox">
+      Clés remises
+    </label>
+
+    <label class="check">
+      <input type="checkbox">
+      Papiers du véhicule remis
+    </label>
+
+    <label class="check">
+      <input type="checkbox">
+      Effets personnels vérifiés / remis
+    </label>
+
+    <label class="check">
+      <input type="checkbox">
+      Véhicule contrôlé avant départ
+    </label>
+
+
+    <label>Observations</label>
+
+    <textarea placeholder="Observations"></textarea>
+
+
+    <button onclick="closeMission('Enlevé du parc')">
+      ENREGISTRER LA SORTIE
+    </button>
+
+    <button class="light" onclick="show('park')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="current" class="hidden">
+
+  <div class="card">
+
+    <h2>Missions en cours</h2>
+
+    <div id="currentText" class="muted">
+      Aucune mission chargée dans ce prototype.
+    </div>
+
+    <button onclick="show('mission')">
+      OUVRIR LA MISSION
+    </button>
+
+    <button class="light" onclick="show('home')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="history" class="hidden">
+
+  <div class="card">
+
+    <h2>Missions terminées</h2>
+
+    <p class="muted">
+      L'historique sera relié à la base de données dans la version sécurisée.
+    </p>
+
+    <button class="light" onclick="show('home')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="settings" class="hidden">
+
+  <div class="card">
+
+    <h2>Paramètres</h2>
+
+    <p class="muted">
+      Version prototype — accès sécurisé et stockage en ligne à intégrer.
+    </p>
+
+    <button class="light" onclick="show('home')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="delivery" class="hidden">
+
+  <div class="card">
+
+    <h2>Livraison</h2>
+
+    <p class="muted">
+      Avant clôture : marque, modèle et immatriculation obligatoires.
+      Kilométrage facultatif.
+    </p>
+
+    <button onclick="eventStep('Arrivée au garage / livraison')">
+      ARRIVÉE GARAGE / LIVRAISON — heure + GPS
+    </button>
+
+    <button onclick="show('keys')">
+      CONTRÔLE DES CLÉS
+    </button>
+
+    <button class="light" onclick="show('mission')">
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="keys" class="hidden">
+
+  <div class="card">
+
+    <h2>Clés</h2>
+
+    <label class="check">
+
+      <input
+        type="checkbox"
+        id="keysPresent"
+        onchange="keysChange()"
+      >
+
+      Clés présentes
+
+    </label>
+
+
+    <div id="keyPhoto" class="notice hidden">
+
+      Dans la vraie application, une photo des clés sera obligatoire avant clôture.
+
+    </div>
+
+
+    <button onclick="closeMission('Livré')">
+      CLÔTURER LA MISSION
+    </button>
+
+    <button class="light" onclick="show('delivery')">
+      Retour
+    </button>
+
+  </div>
+
 </section>
 
 </main>
 
-<footer>
-<button class="gray" id="backBtn" onclick="previousStep()" style="display:none">
-Retour
-</button>
 
-<button class="red" id="nextBtn" onclick="nextStep()">
-Continuer
-</button>
-</footer>
+<nav id="nav" class="hidden">
 
-</div>
+  <button onclick="show('home')">
+    Accueil
+  </button>
+
+  <button onclick="show('mission')">
+    Mission
+  </button>
+
+  <button onclick="show('client')">
+    Client
+  </button>
+
+  <button onclick="show('vehicle')">
+    Véhicule
+  </button>
+
+  <button onclick="show('settings')">
+    Menu
+  </button>
+
+</nav>
+
 
 <script>
 
-let step=1;
+let currentUser='';
+let mission=null;
 
-let data={
-  depanneur:"",
-  nature:""
-};
+const $=id=>document.getElementById(id);
 
-function selectChoice(element,type,value){
 
-  element.parentElement.querySelectorAll(".choice")
-    .forEach(x=>x.classList.remove("selected"));
+function show(id){
 
-  element.classList.add("selected");
+  document
+    .querySelectorAll('main>section')
+    .forEach(s=>s.classList.add('hidden'));
 
-  data[type]=value;
-}
+  $(id).classList.remove('hidden');
 
-function showStep(){
-
-  document.querySelectorAll(".screen")
-    .forEach(s=>s.classList.remove("active"));
-
-  document.getElementById("screen"+step)
-    .classList.add("active");
-
-  document.getElementById("stepText").textContent=
-    "Étape "+step+" sur 5";
-
-  document.getElementById("progressBar").style.width=
-    (step*20)+"%";
-
-  document.getElementById("backBtn").style.display=
-    step===1 ? "none" : "block";
-
-  document.getElementById("nextBtn").style.display=
-    step===5 ? "none" : "block";
-
-  if(step===5){
-    createSummary();
-  }
-}
-
-function nextStep(){
-
-  if(step===1){
-
-    if(!data.depanneur){
-      alert("Sélectionne le dépanneur.");
-      return;
-    }
-
-    if(!data.nature){
-      alert("Sélectionne la nature de l'intervention.");
-      return;
-    }
+  if(
+    ['home','mission','new','current','park','history','settings']
+    .includes(id)
+    && currentUser
+  ){
+    $('nav').classList.remove('hidden');
   }
 
-  if(step===2){
-
-    if(!document.getElementById("marque").value ||
-       !document.getElementById("modele").value ||
-       !document.getElementById("immat").value){
-
-      alert("Renseigne au minimum la marque, le modèle et l'immatriculation.");
-      return;
-    }
+  if(id==='client'||id==='vehicle'){
+    $('mission').classList.remove('hidden');
   }
 
-  if(step<5){
-    step++;
-    showStep();
+  if(id==='home'){
+    $('nav').classList.remove('hidden');
   }
+
 }
 
-function previousStep(){
 
-  if(step>1){
-    step--;
-    showStep();
+function login(){
+
+  currentUser=$('user').value;
+
+  $('userLine').textContent=
+    'Connecté : '+currentUser;
+
+  $('hello').textContent=
+    'Bonjour '+currentUser.split(' — ')[0];
+
+  $('login').classList.add('hidden');
+
+  $('nav').classList.remove('hidden');
+
+  show('home');
+
+}
+
+
+function now(){
+
+  return new Date().toLocaleString('fr-FR');
+
+}
+
+
+function geo(cb){
+
+  if(navigator.geolocation){
+
+    navigator.geolocation.getCurrentPosition(
+
+      p=>cb(
+        p.coords.latitude.toFixed(5)
+        +', '
+        +p.coords.longitude.toFixed(5)
+      ),
+
+      ()=>cb('GPS indisponible')
+
+    );
+
+  }else{
+
+    cb('GPS indisponible');
+
   }
+
 }
 
-function createSummary(){
 
-  let marque=document.getElementById("marque").value;
-  let modele=document.getElementById("modele").
-value;
+function startMission(){
 
-let immat=document.getElementById("immat").value;
-let km=document.getElementById("km").value;
-let client=document.getElementById("client").value;
-let telephone=document.getElementById("telephone").value;
-let adresse=document.getElementById("adresse").value;
-let observations=document.getElementById("observations").value;
+  mission={
+    events:[],
+    services:[],
+    status:'EN COURS',
+    driver:$('driver').value
+  };
 
-document.getElementById("summary").innerHTML=`
+  geo(g=>{
 
-<strong>Dépanneur :</strong> ${data.depanneur}<br>
-<strong>Nature :</strong> ${data.nature}<br><br>
+    mission.events.push({
 
-<strong>Véhicule :</strong><br>
-${marque} ${modele}<br>
-Immatriculation : ${immat}<br>
-Kilométrage : ${km || "Non renseigné"}<br><br>
+      name:'Départ mission',
+      time:now(),
+      gps:g
 
-<strong>Client :</strong><br>
-${client || "Non renseigné"}<br>
-${telephone || "Téléphone non renseigné"}<br><br>
+    });
 
-<strong>Lieu :</strong><br>
-${adresse || "Non renseigné"}<br><br>
+    render();
 
-<strong>Observations :</strong><br>
-${observations || "Aucune"}
+    show('mission');
 
-`;
+  });
+
 }
 
-function finish(){
 
-  alert("Intervention enregistrée avec succès.");
+function eventStep(name){
 
-  location.reload();
+  if(!mission){
+
+    alert('Aucune mission en cours.');
+
+    return;
+
+  }
+
+  geo(g=>{
+
+    mission.events.push({
+
+      name,
+      time:now(),
+      gps:g
+
+    });
+
+    render();
+
+  });
+
+  if(name==='Départ du lieu d’intervention'){
+
+    show('destination');
+
+  }
+
+  if(name.includes('Arrivée au garage')){
+
+    show('keys');
+
+  }
+
 }
 
-showStep();
+
+function render(){
+
+  $('timeline').innerHTML=
+
+    mission.events.map(e=>
+
+      `<div class="step">
+
+        <b>${e.name}</b>
+
+        <br>
+
+        <span class="muted">
+
+          ${e.time} — GPS : ${e.gps}
+
+        </span>
+
+      </div>`
+
+    ).join('');
+
+
+  $('currentText').textContent=
+
+    mission.status
+    +' — '
+    +mission.driver;
+
+}
+
+
+function toggle(id){
+
+  $(id).classList.toggle('hidden');
+
+}
+
+
+function saveServices(){
+
+  mission.services=[
+
+    ...document.querySelectorAll(
+      '#services input:checked'
+    )
+
+  ].map(x=>x.value);
+
+  show('mission');
+
+}
+
+
+function sign(present){
+
+  if(present){
+
+    mission.signature=
+      'Signature client — '+now();
+
+    alert(
+      'Signature enregistrée (prototype).'
+    );
+
+    show('mission');
+
+  }else{
+
+    $('absence').classList.remove('hidden');
+
+  }
+
+}
+
+
+function saveAbsence(){
+
+  mission.signature=
+    'Client absent — '
+    +(
+      $('absenceReason').value
+      ||'Motif non renseigné'
+    );
+
+  show('mission');
+
+}
+
+
+function destChange(){
+
+  $('deliveryBox').classList.toggle(
+
+    'hidden',
+
+    $('destType').value
+    !=='Départ vers livraison'
+
+  );
+
+}
+
+
+function chooseDestination(){
+
+  mission.destination=
+    $('destType').value;
+
+  if(
+    $('destType').value
+    ==='Départ vers dépôt'
+  ){
+
+    eventStep('Départ vers dépôt');
+
+    show('mission');
+
+    setTimeout(()=>{
+
+      eventStep('Arrivée dépôt');
+
+      mission.status='EN PARC';
+
+      render();
+
+      show('park');
+
+    },200);
+
+  }else{
+
+    eventStep('Départ vers livraison');
+
+    show('delivery');
+
+  }
+
+}
+
+
+function resumeMission(){
+
+  if(mission){
+
+    mission.status=
+      'REPRISE DEPUIS LE PARC';
+
+    render();
+
+    eventStep('Départ du parc');
+
+    show('delivery');
+
+  }else{
+
+    alert(
+      'Aucune mission en parc.'
+    );
+
+  }
+
+}
+
+
+function keysChange(){
+
+  $('keyPhoto').classList.toggle(
+
+    'hidden',
+
+    !$('keysPresent').checked
+
+  );
+
+}
+
+
+function closeMission(status){
+
+  if(!mission)return;
+
+  if(
+    $('keysPresent')?.checked
+    && !$('keyPhoto')
+  )return;
+
+  mission.status=
+    'TERMINÉE — '+status;
+
+  render();
+
+  alert(
+    'Mission clôturée dans le prototype.'
+  );
+
+  show('home');
+
+}
 
 </script>
 
