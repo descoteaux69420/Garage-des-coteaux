@@ -403,3 +403,48 @@ function createSummary(){
 
   let marque=document.getElementById("marque").value;
   let modele=document.getElementById("modele").
+value;
+
+let immat=document.getElementById("immat").value;
+let km=document.getElementById("km").value;
+let client=document.getElementById("client").value;
+let telephone=document.getElementById("telephone").value;
+let adresse=document.getElementById("adresse").value;
+let observations=document.getElementById("observations").value;
+
+document.getElementById("summary").innerHTML=`
+
+<strong>Dépanneur :</strong> ${data.depanneur}<br>
+<strong>Nature :</strong> ${data.nature}<br><br>
+
+<strong>Véhicule :</strong><br>
+${marque} ${modele}<br>
+Immatriculation : ${immat}<br>
+Kilométrage : ${km || "Non renseigné"}<br><br>
+
+<strong>Client :</strong><br>
+${client || "Non renseigné"}<br>
+${telephone || "Téléphone non renseigné"}<br><br>
+
+<strong>Lieu :</strong><br>
+${adresse || "Non renseigné"}<br><br>
+
+<strong>Observations :</strong><br>
+${observations || "Aucune"}
+
+`;
+}
+
+function finish(){
+
+  alert("Intervention enregistrée avec succès.");
+
+  location.reload();
+}
+
+showStep();
+
+</script>
+
+</body>
+</html>
