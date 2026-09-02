@@ -3,53 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Garage des Coteaux — Dépannage V2</title>
+<title>Garage des Coteaux — Dépannage V5</title>
 <style>
 :root{--red:#c91424;--dark:#111;--bg:#f3f4f6;--muted:#6b7280;--line:#e5e7eb}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:#111}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:#111}
 .app{max-width:480px;margin:auto;min-height:100vh;background:#fff;display:flex;flex-direction:column}
 header{background:#111;color:#fff;padding:17px 18px 14px;position:sticky;top:0;z-index:10}
-.brand{font-weight:800;font-size:18px}
-.step{font-size:12px;color:#bbb;margin-top:6px}
-.progress{height:5px;background:#444;border-radius:8px;margin-top:11px}
-.bar{height:100%;background:var(--red);border-radius:8px;transition:.2s}
-main{padding:18px;flex:1}
-.screen{display:none}
-.screen.active{display:block}
-h1{font-size:24px;margin:2px 0 7px}
-.sub{font-size:14px;color:var(--muted);margin-bottom:17px}
+.brand{font-weight:800;font-size:18px}.step{font-size:12px;color:#bbb;margin-top:6px}
+.progress{height:5px;background:#444;border-radius:8px;margin-top:11px}.bar{height:100%;background:var(--red);border-radius:8px}
+main{padding:18px;flex:1}.screen{display:none}.screen.active{display:block}
+h1{font-size:24px;margin:2px 0 7px}.sub{font-size:14px;color:var(--muted);margin-bottom:17px}
 .card{border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0;box-shadow:0 2px 8px #00000009}
 label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
 input,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;background:#fff}
-textarea{min-height:80px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+textarea{min-height:80px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .choice{border:2px solid #ddd;border-radius:12px;padding:14px 9px;text-align:center;font-weight:700;background:#fff;cursor:pointer}
 .choice.selected{border-color:var(--red);background:#fff1f2}
 .big{width:100%;font-size:18px;padding:18px;margin:6px 0;border:0;border-radius:12px;font-weight:800}
-.red{background:var(--red);color:#fff}
-.dark{background:#111;color:#fff}
-.gray{background:#e5e7eb}
+.red{background:var(--red);color:#fff}.dark{background:#111;color:#fff}.gray{background:#e5e7eb}
 .notice{padding:11px;border-radius:10px;background:#fff7ed;color:#9a3412;font-size:13px;margin-top:10px}
-.ok{background:#ecfdf5;color:#166534}
-.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ok{background:#ecfdf5;color:#166534}.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .photo{border:2px dashed #ccc;border-radius:12px;padding:20px 8px;text-align:center;color:#666;cursor:pointer}
 .photo.done{border-style:solid;border-color:#222;color:#111;background:#f8f8f8}
 .check{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #eee;font-weight:600}
-.check input{width:20px;height:20px}
-.timeline{border-left:3px solid #ddd;margin:10px 0 5px 7px;padding-left:15px}
-.event{padding:9px 0}
-.event b{display:block}
-.event small{color:var(--muted)}
+.check input{width:20px;height:20px}.timeline{border-left:3px solid #ddd;margin:10px 0 5px 7px;padding-left:15px}
+.event{padding:9px 0}.event b{display:block}.event small{color:var(--muted)}
 .status{display:inline-block;padding:7px 10px;border-radius:99px;background:#eee;font-size:12px;font-weight:800}
 .signature{height:150px;border:2px dashed #aaa;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#888;text-align:center}
 footer{position:sticky;bottom:0;background:#fff;border-top:1px solid #ddd;padding:11px;display:flex;gap:9px;z-index:10}
-button{cursor:pointer}
-.back{background:#e5e7eb;border:0;border-radius:12px;padding:14px 15px;font-weight:800}
+button{cursor:pointer}.back{background:#e5e7eb;border:0;border-radius:12px;padding:14px 15px;font-weight:800}
 .next{flex:1;background:var(--red);color:#fff;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:800}
-.next:disabled{background:#bbb;cursor:not-allowed}
-.hidden{display:none}
-.small{font-size:12px;color:var(--muted)}
+.next:disabled{background:#bbb;cursor:not-allowed}.hidden{display:none}.small{font-size:12px;color:var(--muted)}
+.park{border:1px solid #ddd;border-radius:12px;padding:13px;margin:9px 0}
 </style>
 </head>
 
@@ -57,21 +42,22 @@ button{cursor:pointer}
 <div class="app">
 
 <header>
-<div class="brand">GARAGE DES COTEAUX <span style="float:right;font-size:20px">☰</span></div>
+<div class="brand">
+GARAGE DES COTEAUX
+<button id="menuBubble" style="float:right;background:#333;color:#fff;border:0;border-radius:50%;width:34px;height:34px;font-size:18px">☰</button>
+</div>
 <div class="step" id="stepText"></div>
 <div class="progress"><div class="bar" id="bar"></div></div>
 </header>
 
 <main>
 
-<section class="screen active" id="s0">
+<section class="screen" id="s0">
 <h1>Nouvelle intervention</h1>
 <div class="sub">Créer rapidement une mission de dépannage.</div>
 
 <div class="card">
-
 <label>Nature de l’intervention</label>
-
 <div class="grid" id="nature">
 <div class="choice" data-v="Police">Police</div>
 <div class="choice" data-v="Autoroute">Autoroute</div>
@@ -80,8 +66,11 @@ button{cursor:pointer}
 <div class="choice" data-v="Fourrière">Fourrière</div>
 </div>
 
-<label>Type de dépannage</label>
+<div id="fourriereInfo" class="notice hidden">
+Mode FOURRIÈRE : tarif réglementé. Aucun km supplémentaire, treuillage, grutage ou prestation de dépannage classique.
+</div>
 
+<label>Type de dépannage</label>
 <div class="grid" id="type">
 <div class="choice" data-v="Dépannage sur place">Dépannage sur place</div>
 <div class="choice" data-v="Remorquage">Remorquage</div>
@@ -90,11 +79,9 @@ button{cursor:pointer}
 <div class="choice" data-v="Déplacement pour rien" id="nothing" style="margin-top:10px">
 Déplacement pour rien
 </div>
-
 </div>
 
 <div class="card">
-
 <label>N° de dossier</label>
 <input id="dossier" placeholder="Assistance / dossier">
 
@@ -118,18 +105,13 @@ Déplacement pour rien
 
 <label>Adresse de prise en charge</label>
 <input id="pickup" placeholder="Adresse / lieu">
-
 </div>
 </section>
 
 
 <section class="screen" id="s1">
-
 <h1>Début de mission</h1>
-
-<div class="sub">
-Un seul bouton quand tu arrives sur place : l'heure et le GPS sont enregistrés automatiquement.
-</div>
+<div class="sub">Un seul bouton quand tu arrives sur place.</div>
 
 <button class="big red" id="start">
 📍 DÉBUT DE MISSION / ARRIVÉE SUR PLACE
@@ -142,9 +124,7 @@ Mission pas encore commencée.
 <div id="rateMsg" class="notice hidden"></div>
 
 <div class="card">
-
 <label>Véhicule — peut être complété plus tard</label>
-
 <div class="grid">
 <input id="brand" placeholder="Marque">
 <input id="model" placeholder="Modèle">
@@ -153,37 +133,28 @@ Mission pas encore commencée.
 <label>Immatriculation</label>
 <input id="plate" placeholder="AB-123-CD">
 
-<label>Kilométrage <span class="small">(facultatif)</span></label>
+<label>Kilométrage</label>
 <input id="km" type="number" placeholder="Facultatif">
-
 </div>
 
 <div class="card">
-
-<b>Photos — facultatives</b>
+<b>Photos — facultatives pendant le dépannage</b>
 
 <div class="photo-grid" id="photos">
-
 <div class="photo" data-p="Avant">📷<br>Avant</div>
 <div class="photo" data-p="Arrière">📷<br>Arrière</div>
 <div class="photo" data-p="Côté gauche">📷<br>Côté gauche</div>
 <div class="photo" data-p="Côté droit">📷<br>Côté droit</div>
 <div class="photo" data-p="Tableau de bord">📷<br>Tableau de bord</div>
 <div class="photo" data-p="Dommages">📷<br>Dommages</div>
-
 </div>
 </div>
-
 </section>
 
 
 <section class="screen" id="s2">
-
 <h1>Fin de chargement</h1>
-
-<div class="sub">
-Validation avant de quitter le lieu d'intervention.
-</div>
+<div class="sub">Validation avant de quitter le lieu d’intervention.</div>
 
 <button class="big dark" id="loaded">
 ✓ FIN DE CHARGEMENT
@@ -192,20 +163,14 @@ Validation avant de quitter le lieu d'intervention.
 <div id="loadMsg" class="notice">
 Chargement non validé.
 </div>
-
 </section>
 
 
 <section class="screen" id="s3">
-
 <h1>Prestations</h1>
+<div class="sub">Sélectionner uniquement ce qui a été réalisé.</div>
 
-<div class="sub">
-Sélectionner uniquement ce qui a été réalisé.
-</div>
-
-<div class="card">
-
+<div class="card" id="classicServices">
 <label class="check">
 <input type="checkbox" value="Treuillage">
 Treuillage
@@ -225,32 +190,18 @@ Nettoyage de la chaussée
 <input type="checkbox" value="Attente sur place">
 Attente sur place
 </label>
-
 </div>
-
 </section>
 
 
 <section class="screen" id="s4">
-
 <h1>Signature</h1>
-
-<div class="sub">
-Signature de prise en charge si le client est présent.
-</div>
+<div class="sub">Signature de prise en charge si le client est présent.</div>
 
 <div class="card">
-
 <div class="grid">
-
-<div class="choice selected" id="present">
-Client présent
-</div>
-
-<div class="choice" id="absent">
-Client absent
-</div>
-
+<div class="choice selected" id="present">Client présent</div>
+<div class="choice" id="absent">Client absent</div>
 </div>
 
 <div id="sigArea">
@@ -262,19 +213,13 @@ Client absent
 <div id="absMsg" class="notice hidden">
 Client absent — motif enregistré.
 </div>
-
 </div>
-
 </section>
 
 
 <section class="screen" id="s5">
-
 <h1>Départ du lieu</h1>
-
-<div class="sub">
-Choisir la destination de cette étape.
-</div>
+<div class="sub">Choisir la destination.</div>
 
 <button class="big red" id="toDepot">
 🏠 DÉPART VERS DÉPÔT
@@ -285,137 +230,68 @@ Choisir la destination de cette étape.
 </button>
 
 <div class="card">
-
-<label>Adresse de livraison</label>
-<input id="delivery" placeholder="Garage / client">
-
-<label>Distance Garage → accident (km)</label>
+<label>Distance garage → accident (km)</label>
 <input id="kmGarageAccident" type="number" min="0" step="0.1" placeholder="Ex. 12">
 
-<label>
-Accident → livraison (km)
-<span class="small">si livraison</span>
-</label>
+<label>Accident → livraison (km)</label>
+<input id="kmAccidentDelivery" type="number" min="0" step="0.1">
 
-<input id="kmAccidentDelivery" type="number" min="0" step="0.1" placeholder="Ex. 30">
-
-<label>
-Livraison → dépôt (km)
-<span class="small">si livraison</span>
-</label>
-
-<input id="kmDeliveryDepot" type="number" min="0" step="0.1" placeholder="Ex. 15">
+<label>Livraison → dépôt (km)</label>
+<input id="kmDeliveryDepot" type="number" min="0" step="0.1">
 
 <div id="kmCalc" class="notice ok">
-20 km inclus — renseigner les distances pour calculer.
+20 km forfaitaires inclus.
 </div>
-
 </div>
 
 <div class="card">
-
 <b>Forfait remorquage</b>
 
 <div class="grid" id="tariffChoice">
-
-<div class="choice selected" data-v="Normal">
-🟢 Normal
+<div class="choice selected" data-v="Normal">🟢 Normal</div>
+<div class="choice" data-v="Majoré">🔴 Majoré</div>
 </div>
-
-<div class="choice" data-v="Majoré">
-🔴 Majoré
 </div>
-
-</div>
-
-<div class="notice">
-Le choix normal/majoré peut être ajusté par l’administrateur.
-</div>
-
-</div>
-
 </section>
 
 
 <section class="screen" id="s6">
-
-<h1 id="arrivalTitle">
-Arrivée
-</h1>
-
-<div class="sub">
-Enregistrer l'arrivée avec heure + GPS.
-</div>
+<h1 id="arrivalTitle">Arrivée</h1>
+<div class="sub">Enregistrer l’arrivée avec heure + GPS.</div>
 
 <button class="big red" id="arrivalBtn">
-📍 ENREGISTRER L'ARRIVÉE
+📍 ENREGISTRER L’ARRIVÉE
 </button>
 
 <div id="arrivalMsg" class="notice">
 Arrivée non enregistrée.
 </div>
-
 </section>
 
 
 <section class="screen" id="s7">
-
-<h1 id="parkTitle">
-Mise en parc
-</h1>
-
-<div class="sub" id="parkSub">
-La mission reste ouverte et pourra être reprise plus tard.
+<h1>Mise en parc</h1>
+<div class="sub">
+La mission est mise en pause. Après validation, retour automatique au menu principal.
 </div>
 
 <div class="card">
-
-<span class="status">
-EN PARC
-</span>
-
-<div class="timeline">
-
-<div class="event">
-<b id="parkEvent">Mise en parc</b>
-<small id="parkTime"></small>
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<b>Contrôle avant mise en parc</b>
-
-<div class="sub" style="margin-top:6px">
-Ces informations sont obligatoires avant de mettre le véhicule en parc.
-</div>
+<span class="status">EN PARC</span>
 
 <div class="grid">
-
 <input id="parkBrand" placeholder="Marque *">
 <input id="parkModel" placeholder="Modèle *">
-
 </div>
 
-<label>
-Immatriculation *
-</label>
-
+<label>Immatriculation *</label>
 <input id="parkPlate" placeholder="AB-123-CD">
-
 </div>
-
 
 <div class="card">
-
 <b>Photo du véhicule *</b>
 
-<div class="sub" style="margin-top:6px">
-Si une photo a déjà été prise pendant le dépannage, elle est conservée.
+<div class="sub">
+Si une photo a déjà été prise pendant le dépannage, elle peut être conservée.
 </div>
 
 <div class="photo" id="parkPhotoBtn">
@@ -423,22 +299,14 @@ Si une photo a déjà été prise pendant le dépannage, elle est conservée.
 </div>
 
 <div id="parkPhotoStatus" class="notice">
-Aucune photo du véhicule enregistrée pour l'instant.
+Aucune photo enregistrée.
 </div>
-
 </div>
-
 
 <div class="card">
-
 <b>Clés du véhicule *</b>
 
-<div class="sub" style="margin-top:6px">
-Indiquer obligatoirement si les clés sont présentes ou non.
-</div>
-
 <div class="grid">
-
 <div class="choice" id="parkKeysYes">
 🔑 Clés présentes
 </div>
@@ -446,18 +314,14 @@ Indiquer obligatoirement si les clés sont présentes ou non.
 <div class="choice" id="parkKeysNo">
 🚫 Pas de clés
 </div>
-
 </div>
 
 <div id="parkKeysStatus" class="notice">
-Merci d'indiquer le statut des clés.
+Merci d’indiquer le statut des clés.
 </div>
-
 </div>
-
 
 <div class="card">
-
 <b>Gardiennage</b>
 
 <div class="notice ok">
@@ -465,56 +329,93 @@ Merci d'indiquer le statut des clés.
 </div>
 
 <div id="parkGuardPreview" class="small">
-Le nombre de jours sera calculé automatiquement.
+Le compteur commencera à la validation.
 </div>
-
 </div>
 
 <button class="big red" id="parkValidate">
 ✓ VALIDER LA MISE EN PARC
 </button>
-
 </section>
 
 
 <section class="screen" id="s8">
-
-<h1>Reprise de mission</h1>
-
+<h1>Reprise / sortie du parc</h1>
 <div class="sub">
-Transférer le véhicule vers sa destination finale.
+Choisis le véhicule sans relancer automatiquement une mission.
 </div>
 
-<div class="card">
+<div id="parkList" class="card"></div>
 
-<label>
-Garage / client destinataire
-</label>
-
-<input id="destFinal" placeholder="Nom du garage ou client">
-
-<label>
-Adresse de livraison
-</label>
-
-<input id="destAddress" placeholder="Adresse">
-
-</div>
-
-<button class="big red" id="transferStart">
-▶ DÉPART DU PARC
+<button class="big dark" id="parkBackHome">
+← MENU PRINCIPAL
 </button>
-
 </section>
 
 
 <section class="screen" id="s9">
-
-<h1>Livraison / restitution</h1>
+<h1>Destination</h1>
 
 <div class="sub">
-Enregistrer l'arrivée puis contrôler les éléments obligatoires.
+Destination du véhicule sorti du parc.
 </div>
+
+<div class="card">
+
+<label>Garage / client destinataire</label>
+<input id="destFinal" placeholder="Ex. Roux Automobile">
+
+<label>Adresse de relivraison</label>
+<input id="destAddress" list="favoriteAddresses" placeholder="Commencer à taper le nom du garage...">
+
+<datalist id="favoriteAddresses"></datalist>
+
+<div id="favoriteList" style="margin-top:10px"></div>
+
+<button class="big gray" type="button" id="saveFavorite">
+⭐ AJOUTER AUX FAVORIS
+</button>
+
+<div class="grid" style="margin-top:10px">
+
+<button class="big dark" type="button" id="wazeNav">
+🧭 OUVRIR WAZE
+</button>
+
+<button class="big dark" type="button" id="mapsNav">
+🗺️ OUVRIR GOOGLE MAPS
+</button>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<button class="big dark" id="deliverFromPark">
+🚚 LIVRAISON / AUTRE GARAGE
+</button>
+
+<button class="big dark" id="wreckerFromPark">
+♻️ ÉPAVISTE
+</button>
+
+</div>
+
+<button class="big gray" id="backToParkList">
+← RETOUR AU PARC
+</button>
+</section>
+
+
+<section class="screen" id="s10">
+<h1>Relivraison</h1>
+
+<div class="sub">
+Nouvelles photos et signature obligatoires.
+</div>
+
+<div id="deliveryVehicle" class="card"></div>
 
 <button class="big red" id="deliverArrival">
 📍 ARRIVÉE À DESTINATION
@@ -525,112 +426,37 @@ Arrivée non enregistrée.
 </div>
 
 <div class="card">
+<b>Nouvelle photo du véhicule *</b>
 
-<label>
-Informations véhicule — obligatoires pour terminer
-</label>
-
-<div class="grid">
-
-<input id="brand2" placeholder="Marque">
-<input id="model2" placeholder="Modèle">
-
+<div class="photo" id="deliveryPhotoBtn">
+📷<br>AJOUTER / PRENDRE UNE PHOTO
 </div>
-
-<label>
-Immatriculation
-</label>
-
-<input id="plate2" placeholder="AB-123-CD">
-
-<label>
-Kilométrage <span class="small">(facultatif)</span>
-</label>
-
-<input id="km2" type="number" placeholder="Facultatif">
-
-</div>
-
-
-<div class="card" id="finalKeyCard">
-
-<label>
-Clés du véhicule
-</label>
-
-<div id="parkKeyInfo" class="notice hidden"></div>
-
-<div id="finalKeyChoices" class="grid">
-
-<div class="choice" id="keysYes">
-Clés présentes
-</div>
-
-<div class="choice" id="keysNo">
-Pas de clés
-</div>
-
-</div>
-
-<div id="keyPhoto" class="photo hidden" style="margin-top:10px">
-📷<br>AJOUTER LA PHOTO DES CLÉS
-</div>
-
-<div id="keyMsg" class="notice hidden"></div>
-
-</div>
-
-
-<div class="card">
-
-<label>
-Signature finale
-</label>
-
-<div class="signature" id="finalSig">
-✍️ Appuyer pour simuler la signature du destinataire
-</div>
-
-</div>
-
-</section>
-
-
-<section class="screen" id="s10">
-
-<h1>Fin de mission</h1>
-
-<div class="sub">
-Dossier complet et prêt à être envoyé.
 </div>
 
 <div class="card">
 
-<span class="status">
-TERMINÉE
-</span>
+<label>Personne qui réceptionne *</label>
+<input id="receiverName" placeholder="Nom / prénom">
 
-<div id="finalSummary" class="timeline"></div>
+<label>Signature du réceptionnaire *</label>
+
+<div class="signature" id="receiverSig">
+✍️ Appuyer pour enregistrer la signature
+</div>
 
 </div>
 
-<button class="big red" onclick="alert('Prototype : envoi du rapport PDF par e-mail')">
-✉️ ENVOYER LE RAPPORT
+<button class="big red" id="finishDelivery">
+✓ VALIDER LA RELIVRAISON
 </button>
-
-<button class="big dark" onclick="location.reload()">
-+ NOUVELLE MISSION
-</button>
-
 </section>
 
 
 <section class="screen" id="s11">
-
 <h1>Menu principal</h1>
 
 <div class="sub">
-Que veux-tu faire ?
+Les menus sont indépendants de la mission en cours.
 </div>
 
 <div class="card">
@@ -648,53 +474,35 @@ Que veux-tu faire ?
 </button>
 
 <button class="big dark" id="parkDelivery">
-🚚 LIVRER UN VÉHICULE DU PARC
+🚚 SORTIE / LIVRAISON DU PARC
 </button>
 
 </div>
-
-<div id="parkMenuMsg" class="notice ok">
-La mission en cours est conservée en parc.
-</div>
-
 </section>
 
 
 <section class="screen" id="s12">
-
-<h1>
-Enlèvement par épaviste
-</h1>
+<h1>Enlèvement par épaviste</h1>
 
 <div class="sub">
-La mission se termine par la sortie du véhicule du parc.
+Sortie définitive du véhicule du parc.
 </div>
+
+<div id="wreckerVehicle" class="card"></div>
 
 <div class="card">
 
-<label>
-Nom de l'épaviste / société
-</label>
+<label>Nom de l’épaviste / société *</label>
+<input id="wrecker">
 
-<input id="wrecker" placeholder="Nom ou société">
-
-<label>
-Date de récupération
-</label>
-
+<label>Date</label>
 <input id="wdate" type="date">
 
-<label>
-Heure
-</label>
-
+<label>Heure</label>
 <input id="wtime" type="time">
 
-<label>
-Observations
-</label>
-
-<textarea id="wobs" placeholder="Informations complémentaires"></textarea>
+<label>Observations</label>
+<textarea id="wobs"></textarea>
 
 </div>
 
@@ -702,29 +510,107 @@ Observations
 ✓ VÉHICULE SORTI DU PARC
 </button>
 
+<button class="big gray" id="wBack">
+← RETOUR AU PARC
+</button>
+</section>
+
+
+<section class="screen" id="s13">
+<h1>Missions en cours</h1>
+
+<div class="sub">
+Reprendre ou consulter une mission active.
+</div>
+
+<div id="currentList" class="card"></div>
+
+<button class="big dark" id="currentBackHome">
+← MENU PRINCIPAL
+</button>
 </section>
 
 </main>
 
-
 <footer>
-
-<button class="back" id="back">
-← Retour
-</button>
-
-<button class="next" id="next">
-Suivant →
-</button>
-
+<button class="back" id="back">← Retour</button>
+<button class="next" id="next">Suivant →</button>
 </footer>
 
 </div>
 
-
 <script>
+const screens=[...document.querySelectorAll('.screen')];
 
-const st={
+let st={
+screen:11,
+nature:'',
+type:'',
+start:false,
+arrival:false,
+loaded:false,
+signed:false,
+absent:false,
+dest:'',
+arrival2:false,
+keys:null,
+parkKeys:null,
+parkPhoto:false,
+deliveryPhoto:false,
+receiverSigned:false,
+events:[],
+tariff:'Normal',
+parkStart:null,
+parkIndex:null
+};
+
+let current=JSON.parse(localStorage.getItem('gdc_current')||'null');
+let parks=JSON.parse(localStorage.getItem('gdc_parks')||'[]');
+let favoriteDestinations=JSON.parse(localStorage.getItem('gdcFavorites')||'[]');
+
+function now(){
+return new Date().toLocaleString('fr-FR');
+}
+
+function save(){
+if(current)localStorage.setItem('gdc_current',JSON.stringify(current));
+}
+
+function saveParks(){
+localStorage.setItem('gdc_parks',JSON.stringify(parks));
+}
+
+function show(id){
+screens.forEach(x=>x.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+renderAll();
+}
+
+function renderAll(){
+
+const active=document.querySelector('.screen.active');
+
+document.getElementById('stepText').textContent=
+active?.querySelector('h1')?.textContent||'';
+
+document.getElementById('bar').style.width='100%';
+
+document.getElementById('back').style.display=
+['s11','s8','s13'].includes(active?.id)?'none':'block';
+
+document.getElementById('next').style.display=
+['s11','s8','s9','s10','s12','s13'].includes(active?.id)?'none':'block';
+
+renderFavorites();
+renderPark();
+renderCurrent();
+
+if(current)syncCurrentUI();
+}
+
+function resetMission(){
+
+st={
 screen:0,
 nature:'',
 type:'',
@@ -737,224 +623,137 @@ dest:'',
 arrival2:false,
 keys:null,
 parkKeys:null,
-keyPhoto:false,
-finalSigned:false,
+parkPhoto:false,
+deliveryPhoto:false,
+receiverSigned:false,
 events:[],
-userId:'',
-userName:'',
 tariff:'Normal',
 parkStart:null,
-deliveryMode:false
+parkIndex:null
 };
 
-const screens=[...document.querySelectorAll('.screen')];
+current={
+id:'M'+Date.now(),
+status:'NOUVELLE',
+created:now(),
+data:{}
+};
 
-const total=13;
+save();
 
-function now(){
-return new Date().toLocaleString('fr-FR',{
-hour:'2-digit',
-minute:'2-digit',
-day:'2-digit',
-month:'2-digit',
-year:'numeric'
-});
-}
-
-function event(name){
-st.events.push({
-name:name,
-time:now()
-});
-}
-
-function update(){
-
-updateKmCalc();
-
-const ps=st.parkStart||localStorage.getItem('gdcParkStart');
-
-const g=document.getElementById('parkGuardPreview');
-
-if(g&&ps){
-
-const days=Math.max(
-1,
-Math.ceil(
-(Date.now()-new Date(ps).getTime())/86400000
-)
-);
-
-g.textContent=
-`Depuis la mise en parc : ${days} jour(s) — ${days*50} € HT`;
-
-}
-
-syncFinalKeys();
-
-screens.forEach((x,i)=>
-x.classList.toggle('active',i===st.screen)
-);
-
-document.getElementById('stepText').textContent=
-`Étape ${Math.min(st.screen+1,total)} sur ${total}`;
-
-document.getElementById('bar').style.width=
-(Math.min(st.screen,total-1)/(total-1)*100)+'%';
-
-document.getElementById('back').style.display=
-(st.screen===0||st.screen===12)?'none':'block';
-
-document.getElementById('next').style.display=
-(st.screen>=10||st.screen===7||st.screen===12)?'none':'block';
-
-document.getElementById('next').disabled=
-!canNext();
-
-}
-
-function canNext(){
-
-if(st.screen===0)
-return !!st.nature&&!!st.type;
-
-if(st.screen===1)
-return st.arrival;
-
-if(st.screen===2)
-return st.loaded;
-
-if(st.screen===3)
-return true;
-
-if(st.screen===4)
-return st.signed||st.absent;
-
-if(st.screen===5)
-return !!st.dest;
-
-if(st.screen===6)
-return st.arrival2;
-
-return true;
-
+show('s0');
 }
 
 function choose(group,el){
 
-document
-.querySelectorAll('#'+group+' .choice')
+document.querySelectorAll('#'+group+' .choice')
 .forEach(x=>x.classList.remove('selected'));
 
 el.classList.add('selected');
 
 st[group]=el.dataset.v;
 
-update();
+if(group==='nature'){
+
+document.getElementById('fourriereInfo')
+.classList.toggle('hidden',st.nature!=='Fourrière');
+
+document.getElementById('classicServices')
+.classList.toggle('hidden',st.nature==='Fourrière');
 
 }
 
-document
-.querySelectorAll('#nature .choice')
-.forEach(x=>
-x.onclick=()=>choose('nature',x)
-);
+update();
+}
 
-document
-.querySelectorAll('#type .choice')
-.forEach(x=>
-x.onclick=()=>choose('type',x)
-);
+function update(){
+renderAll();
+}
+
+document.querySelectorAll('#nature .choice')
+.forEach(x=>x.onclick=()=>choose('nature',x));
+
+document.querySelectorAll('#type .choice')
+.forEach(x=>x.onclick=()=>choose('type',x));
 
 document.getElementById('nothing').onclick=()=>{
 
-document
-.querySelectorAll('#type .choice')
+document.querySelectorAll('#type .choice')
 .forEach(x=>x.classList.remove('selected'));
 
-document
-.getElementById('nothing')
+document.getElementById('nothing')
 .classList.add('selected');
 
 st.type='Déplacement pour rien';
 
 update();
-
 };
 
+document.querySelectorAll('#tariffChoice .choice')
+.forEach(x=>x.onclick=()=>{
 
-document
-.querySelectorAll('#tariffChoice .choice')
-.forEach(x=>
-
-x.onclick=()=>{
-
-document
-.querySelectorAll('#tariffChoice .choice')
+document.querySelectorAll('#tariffChoice .choice')
 .forEach(y=>y.classList.remove('selected'));
 
 x.classList.add('selected');
 
 st.tariff=x.dataset.v;
-
-update();
-
 });
 
+document.getElementById('menuBubble').onclick=()=>{
+show('s11');
+};
 
+document.getElementById('newMission').onclick=resetMission;
 
-function updateKmCalc(){
+document.getElementById('parkMissions').onclick=()=>{
+show('s8');
+};
 
-const a=
-parseFloat(
-document.getElementById('kmGarageAccident')?.value
-)||0;
+document.getElementById('parkDelivery').onclick=()=>{
+show('s8');
+};
 
-const b=
-parseFloat(
-document.getElementById('kmAccidentDelivery')?.value
-)||0;
+document.getElementById('currentMissions').onclick=()=>{
+show('s13');
+};
 
-const c=
-parseFloat(
-document.getElementById('kmDeliveryDepot')?.value
-)||0;
+document.getElementById('parkBackHome').onclick=()=>{
+show('s11');
+};
 
-const total=
-(st.dest==='Livraison'
-?a+b+c
-:a*2);
+document.getElementById('currentBackHome').onclick=()=>{
+show('s11');
+};
 
-const extra=
-Math.max(0,total-20);
+document.getElementById('backToParkList').onclick=()=>{
+show('s8');
+};
 
-const el=
-document.getElementById('kmCalc');
-
-if(el)
-el.innerHTML=
-`<b>${total.toFixed(1)} km</b> au total — 20 km inclus — <b>${extra.toFixed(1)} km supplémentaires</b>`;
-
-}
-
-[
-'kmGarageAccident',
-'kmAccidentDelivery',
-'kmDeliveryDepot'
-].forEach(id=>
-document.getElementById(id)
-?.addEventListener('input',updateKmCalc)
-);
-
+document.getElementById('wBack').onclick=()=>{
+show('s8');
+};
 
 document.getElementById('start').onclick=()=>{
+
+if(!st.nature||!st.type){
+
+alert('Choisis la nature et le type de dépannage.');
+
+return;
+}
 
 st.start=true;
 st.arrival=true;
 
-event(
-'Début de mission / arrivée sur place — GPS enregistré'
-);
+st.events.push({
+name:'Début de mission / arrivée sur place',
+time:now()
+});
+
+current.status='EN COURS';
+
+save();
 
 document.getElementById('startMsg').textContent=
 'Début de mission enregistré — heure + GPS.';
@@ -962,89 +761,42 @@ document.getElementById('startMsg').textContent=
 document.getElementById('startMsg').className=
 'notice ok';
 
-showRate();
-
-update();
-
+show('s1');
 };
 
-
-function isMajorated(d){
-
-const day=d.getDay();
-
-const h=
-d.getHours()+d.getMinutes()/60;
-
-if(day===0||day===6)
-return true;
-
-return h>=18||h<8;
-
-}
-
-
-function showRate(){
-
-const d=new Date();
-
-const maj=isMajorated(d);
-
-const el=document.getElementById('rateMsg');
-
-el.classList.remove('hidden');
-
-el.className=
-'notice '+(maj?'':'ok');
-
-el.innerHTML=
-(maj
-?'🔴 <b>FORFAIT MAJORÉ</b>'
-:'🟢 <b>FORFAIT NORMAL</b>')+
-'<br>Calculé selon l’heure d’arrivée sur l’intervention. <span class="small">20 km inclus dans le forfait.</span>';
-
-}
-
-
-document
-.querySelectorAll('#photos .photo')
-.forEach(x=>
-
-x.onclick=()=>{
+document.querySelectorAll('#photos .photo')
+.forEach(x=>x.onclick=()=>{
 
 x.classList.add('done');
 
-x.innerHTML=
-'✓<br>'+x.dataset.p;
+x.innerHTML='✓<br>'+x.dataset.p;
+
+st.parkPhoto=true;
 
 document.getElementById('parkPhotoStatus').textContent=
-'Photo du véhicule déjà enregistrée pendant le dépannage.';
+'Photo déjà enregistrée pendant le dépannage.';
 
 document.getElementById('parkPhotoStatus').className=
 'notice ok';
 
-}
-
-);
-
+});
 
 document.getElementById('parkPhotoBtn').onclick=()=>{
+
+st.parkPhoto=true;
 
 document.getElementById('parkPhotoBtn')
 .classList.add('done');
 
-document.getElementById('parkPhotoBtn')
-.innerHTML=
-'✓<br>Photo du véhicule enregistrée';
+document.getElementById('parkPhotoBtn').innerHTML=
+'✓<br>Photo enregistrée';
 
 document.getElementById('parkPhotoStatus').textContent=
 'Photo du véhicule enregistrée.';
 
 document.getElementById('parkPhotoStatus').className=
 'notice ok';
-
 };
-
 
 document.getElementById('parkKeysYes').onclick=()=>{
 
@@ -1061,11 +813,7 @@ document.getElementById('parkKeysStatus').textContent=
 
 document.getElementById('parkKeysStatus').className=
 'notice ok';
-
-update();
-
 };
-
 
 document.getElementById('parkKeysNo').onclick=()=>{
 
@@ -1082,19 +830,16 @@ document.getElementById('parkKeysStatus').textContent=
 
 document.getElementById('parkKeysStatus').className=
 'notice ok';
-
-update();
-
 };
-
 
 document.getElementById('loaded').onclick=()=>{
 
 st.loaded=true;
 
-event(
-'Fin de chargement — GPS enregistré'
-);
+st.events.push({
+name:'Fin de chargement',
+time:now()
+});
 
 document.getElementById('loadMsg').textContent=
 'Fin de chargement enregistrée — heure + GPS.';
@@ -1103,9 +848,7 @@ document.getElementById('loadMsg').className=
 'notice ok';
 
 update();
-
 };
-
 
 document.getElementById('present').onclick=()=>{
 
@@ -1118,13 +861,21 @@ document.getElementById('present')
 document.getElementById('absent')
 .classList.remove('selected');
 
-document.getElementById('absMsg')
-.classList.add('hidden');
+document.getElementById('sigArea').innerHTML=
+'<div class="signature" id="sig">✍️ Appuyer ici pour simuler la signature client</div>';
+
+document.getElementById('sig').onclick=()=>{
+
+st.signed=true;
+
+document.getElementById('sig').textContent=
+'✓ Signature client enregistrée';
 
 update();
-
 };
 
+update();
+};
 
 document.getElementById('absent').onclick=()=>{
 
@@ -1138,602 +889,724 @@ document.getElementById('present')
 .classList.remove('selected');
 
 document.getElementById('sigArea').innerHTML=
-'<div class="notice">Client absent — motif enregistré. La mission peut continuer.</div>';
+'<div class="notice">Client absent — motif enregistré.</div>';
 
 update();
-
 };
-
 
 document.getElementById('sig').onclick=()=>{
 
 st.signed=true;
 
-event(
-'Signature de prise en charge'
-);
-
 document.getElementById('sig').textContent=
 '✓ Signature client enregistrée';
 
-document.getElementById('sig').style.color=
-'#166534';
-
 update();
-
 };
 
+function kmCalc(){
+
+if(st.nature==='Fourrière'){
+
+document.getElementById('kmCalc').innerHTML=
+'Fourrière : pas de km supplémentaire ni de treuillage/grutage. Tarif réglementé préfecture.';
+
+return;
+}
+
+let a=+document.getElementById('kmGarageAccident').value||0;
+let b=+document.getElementById('kmAccidentDelivery').value||0;
+let c=+document.getElementById('kmDeliveryDepot').value||0;
+
+let total=
+st.dest==='Livraison'
+?a+b+c
+:a*2;
+
+let extra=Math.max(0,total-20);
+
+document.getElementById('kmCalc').innerHTML=
+'<b>'+total.toFixed(1)+' km</b> au total — 20 km inclus — <b>'+
+extra.toFixed(1)+' km supplémentaires</b>';
+}
+
+['kmGarageAccident',
+'kmAccidentDelivery',
+'kmDeliveryDepot']
+.forEach(id=>
+document.getElementById(id)?.addEventListener('input',kmCalc)
+);
 
 document.getElementById('toDepot').onclick=()=>{
 
 st.dest='Dépôt';
-st.deliveryMode=false;
-
-updateKmCalc();
-
-st.screen=6;
+st.arrival2=false;
 
 document.getElementById('arrivalTitle').textContent=
 'Arrivée au dépôt';
 
-update();
-
+show('s6');
 };
-
 
 document.getElementById('toDelivery').onclick=()=>{
 
 st.dest='Livraison';
-st.deliveryMode=true;
-
-updateKmCalc();
-
-st.screen=6;
+st.arrival2=false;
 
 document.getElementById('arrivalTitle').textContent=
 'Arrivée à la livraison';
 
-update();
-
+show('s6');
 };
-
 
 document.getElementById('arrivalBtn').onclick=()=>{
 
 st.arrival2=true;
 
-event(
-'Arrivée '+st.dest+' — GPS enregistré'
-);
+st.events.push({
+name:'Arrivée '+st.dest,
+time:now()
+});
 
-document.getElementById('arrivalMsg').textContent=
-'Arrivée enregistrée — heure + GPS.';
-
-document.getElementById('arrivalMsg').className=
-'notice ok';
-
-if(st.dest==='Dépôt')
-st.screen=7;
-else
-st.screen=9;
-
-update();
-
+if(st.dest==='Dépôt'){
+show('s7');
+}else{
+show('s9');
+}
 };
-
 
 document.getElementById('parkValidate').onclick=()=>{
 
-const brand=
-document.getElementById('parkBrand');
-
-const model=
-document.getElementById('parkModel');
-
-const plate=
-document.getElementById('parkPlate');
-
-
-if(!brand.value.trim())
-brand.value=
+let brand=
+document.getElementById('parkBrand').value.trim()||
 document.getElementById('brand').value.trim();
 
-if(!model.value.trim())
-model.value=
+let model=
+document.getElementById('parkModel').value.trim()||
 document.getElementById('model').value.trim();
 
-if(!plate.value.trim())
-plate.value=
+let plate=
+document.getElementById('parkPlate').value.trim()||
 document.getElementById('plate').value.trim();
 
-
-const hasPhoto=
-[...document.querySelectorAll('#photos .photo.done')].length>0
-||
-document.getElementById('parkPhotoBtn')
-.classList.contains('done');
-
-
-if(
-!brand.value.trim()||
-!model.value.trim()||
-!plate.value.trim()
-){
+if(!brand||!model||!plate){
 
 alert(
-'Avant la mise en parc, la marque, le modèle et l’immatriculation sont obligatoires.'
+'Marque, modèle et immatriculation obligatoires.'
 );
 
 return;
-
 }
 
-
-if(!hasPhoto){
+if(!st.parkPhoto){
 
 alert(
-'Avant la mise en parc, il faut au moins une photo du véhicule.'
+'Une photo du véhicule est obligatoire avant la mise en parc.'
 );
 
 return;
-
 }
-
 
 if(st.parkKeys===null){
 
 alert(
-'Avant la mise en parc, il faut indiquer si les clés sont présentes ou non.'
+'Indique si les clés sont présentes ou non.'
 );
 
 return;
+}
+
+current.data={
+brand:brand,
+model:model,
+plate:plate
+};
+
+current.status='EN PARC';
+
+const park={
+id:current.id,
+brand:brand,
+model:model,
+plate:plate,
+keys:st.parkKeys,
+photo:true,
+parkStart:new Date().toISOString(),
+mission:{
+...current,
+st:{...st}
+}
+};
+
+parks.push(park);
+
+saveParks();
+
+localStorage.removeItem('gdc_current');
+
+current=null;
+
+alert(
+'Véhicule mis en parc. Retour au menu principal.'
+);
+
+show('s11');
+};
+
+function renderPark(){
+
+const box=document.getElementById('parkList');
+
+if(!box)return;
+
+if(!parks.length){
+
+box.innerHTML=
+'<div class="notice">Aucun véhicule au parc.</div>';
+
+return;
+}
+
+box.innerHTML=parks.map((p,i)=>{
+
+let days=Math.max(
+1,
+Math.ceil(
+(Date.now()-new Date(p.parkStart).getTime())
+/86400000
+)
+);
+
+return `
+<div class="park">
+
+<b>${p.brand} ${p.model}</b><br>
+
+Immatriculation :
+${p.plate}<br>
+
+<span class="status">EN PARC</span>
+
+<p>
+Gardiennage :
+${days} jour(s) —
+<b>${days*50} € HT</b>
+</p>
+
+<p class="small">
+Mise en parc :
+${new Date(p.parkStart).toLocaleString('fr-FR')}
+</p>
+
+<button
+class="big red"
+onclick="openPark(${i})">
+SORTIR DU PARC
+</button>
+
+</div>
+`;
+
+}).join('');
+}
+
+function openPark(i){
+
+st.parkIndex=i;
+
+current=parks[i].mission;
+
+document.getElementById('deliveryVehicle').innerHTML=
+'<b>'+
+parks[i].brand+
+' '+
+parks[i].model+
+'</b><br>Immatriculation : '+
+parks[i].plate;
+
+document.getElementById('wreckerVehicle').innerHTML=
+'<b>'+
+parks[i].brand+
+' '+
+parks[i].model+
+'</b><br>Immatriculation : '+
+parks[i].plate;
+
+show('s9');
+}
+
+function renderCurrent(){
+
+const box=document.getElementById('currentList');
+
+if(!box)return;
+
+if(!current){
+
+box.innerHTML=
+'<div class="notice">Aucune mission en cours.</div>';
+
+return;
+}
+
+box.innerHTML=`
+<div class="park">
+
+<b>Mission ${current.id}</b><br>
+
+<span class="status">
+${current.status||'EN COURS'}
+</span>
+
+<button
+class="big dark"
+onclick="resumeCurrent()">
+REPRENDRE LA MISSION
+</button>
+
+</div>
+`;
+}
+
+function resumeCurrent(){
+
+show('s1');
+}
+
+function renderFavorites(){
+
+const list=document.getElementById('favoriteList');
+
+const data=
+document.getElementById('favoriteAddresses');
+
+if(!list||!data)return;
+
+data.innerHTML=
+favoriteDestinations
+.map(d=>'<option value="'+escapeHtml(d.name)+'">')
+.join('');
+
+if(!favoriteDestinations.length){
+
+list.innerHTML=
+'<div class="small">Aucun favori enregistré.</div>';
+
+return;
+}
+
+list.innerHTML=
+favoriteDestinations.map((d,i)=>
+`
+<div style="margin:6px 0">
+
+<button
+type="button"
+class="choice"
+style="width:100%;text-align:left"
+onclick="useFavorite(${i})">
+
+⭐ ${escapeHtml(d.name)}
+<br>
+
+<span class="small">
+${escapeHtml(d.address)}
+</span>
+
+</button>
+
+</div>
+`
+).join('');
+}
+
+function escapeHtml(v){
+
+return String(v||'')
+.replace(/[&<>"']/g,m=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+}[m]));
+}
+
+function useFavorite(i){
+
+let d=favoriteDestinations[i];
+
+document.getElementById('destFinal').value=
+d.name;
+
+document.getElementById('destAddress').value=
+d.address;
+}
+
+document.getElementById('saveFavorite').onclick=()=>{
+
+let name=
+document.getElementById('destFinal')
+.value.trim();
+
+let address=
+document.getElementById('destAddress')
+.value.trim();
+
+if(!name||!address){
+
+alert(
+'Renseigne le nom et l’adresse.'
+);
+
+return;
+}
+
+if(
+!favoriteDestinations.some(x=>
+x.name.toLowerCase()===name.toLowerCase()&&
+x.address.toLowerCase()===address.toLowerCase()
+)
+){
+
+favoriteDestinations.push({
+name:name,
+address:address
+});
 
 }
 
-
-document.getElementById('brand').value=
-brand.value;
-
-document.getElementById('model').value=
-model.value;
-
-document.getElementById('plate').value=
-plate.value;
-
-
-st.parkStart=
-new Date().toISOString();
-
 localStorage.setItem(
-'gdcParkStart',
-st.parkStart
+'gdcFavorites',
+JSON.stringify(favoriteDestinations)
 );
 
+renderFavorites();
 
-event(
-'Mise en parc — mission mise en pause'
+alert(
+'Destination ajoutée aux favoris.'
+);
+};
+
+function navAddress(){
+
+let address=
+document.getElementById('destAddress')
+.value.trim();
+
+let name=
+document.getElementById('destFinal')
+.value.trim();
+
+if(!address){
+
+alert(
+'Renseigne une adresse de destination.'
 );
 
-st.screen=11;
+return null;
+}
 
-update();
+return encodeURIComponent(
+(name?name+', ':'')+address
+);
+}
 
+document.getElementById('wazeNav').onclick=()=>{
+
+let a=navAddress();
+
+if(a){
+
+location.href=
+'https://www.waze.com/ul?q='+
+a+
+'&navigate=yes';
+}
 };
 
+document.getElementById('mapsNav').onclick=()=>{
 
-document.getElementById('currentMissions').onclick=()=>{
+let a=navAddress();
 
-st.screen=1;
+if(a){
 
-update();
-
+location.href=
+'https://www.google.com/maps/dir/?api=1&destination='+
+a;
+}
 };
 
+document.getElementById('deliverFromPark').onclick=()=>{
 
-document.getElementById('parkMissions').onclick=()=>{
+if(
+!document.getElementById('destAddress')
+.value.trim()
+){
 
-st.screen=8;
-
-update();
-
-};
-
-
-document.getElementById('parkDelivery').onclick=()=>{
-
-st.screen=8;
-
-update();
-
-};
-
-
-document.getElementById('newMission').onclick=()=>{
-
-location.reload();
-
-};
-
-
-document.getElementById('transferStart').onclick=()=>{
-
-event(
-'Départ du parc — GPS enregistré'
+alert(
+'Renseigne l’adresse de relivraison.'
 );
 
-st.screen=9;
+return;
+}
 
-document.getElementById('delMsg').textContent=
-'Départ du parc enregistré — choisir puis valider l’arrivée.';
-
-document.getElementById('delMsg').className=
-'notice ok';
-
-update();
-
+show('s10');
 };
 
+document.getElementById('wreckerFromPark').onclick=()=>{
+
+show('s12');
+};
 
 document.getElementById('deliverArrival').onclick=()=>{
-
-st.arrival2=true;
-
-event(
-'Arrivée livraison — GPS enregistré'
-);
 
 document.getElementById('delMsg').textContent=
 'Arrivée enregistrée — heure + GPS.';
 
 document.getElementById('delMsg').className=
 'notice ok';
-
-update();
-
 };
 
+document.getElementById('deliveryPhotoBtn').onclick=()=>{
 
-document.getElementById('keysYes').onclick=()=>{
+st.deliveryPhoto=true;
 
-st.keys=true;
-
-document.getElementById('keysYes')
-.classList.add('selected');
-
-document.getElementById('keysNo')
-.classList.remove('selected');
-
-document.getElementById('keyPhoto')
-.classList.remove('hidden');
-
-document.getElementById('keyMsg').textContent=
-'Photo des clés obligatoire pour terminer.';
-
-document.getElementById('keyMsg')
-.classList.remove('hidden');
-
-update();
-
-};
-
-
-document.getElementById('keysNo').onclick=()=>{
-
-st.keys=false;
-st.keyPhoto=false;
-
-document.getElementById('keysNo')
-.classList.add('selected');
-
-document.getElementById('keysYes')
-.classList.remove('selected');
-
-document.getElementById('keyPhoto')
-.classList.add('hidden');
-
-document.getElementById('keyMsg').textContent=
-'Aucune photo de clés demandée.';
-
-document.getElementById('keyMsg').className=
-'notice ok';
-
-document.getElementById('keyMsg')
-.classList.remove('hidden');
-
-update();
-
-};
-
-
-document.getElementById('keyPhoto').onclick=()=>{
-
-st.keyPhoto=true;
-
-document.getElementById('keyPhoto')
+document.getElementById('deliveryPhotoBtn')
 .classList.add('done');
 
-document.getElementById('keyPhoto').innerHTML=
-'✓<br>Photo des clés enregistrée';
-
-update();
-
+document.getElementById('deliveryPhotoBtn').innerHTML=
+'✓<br>Nouvelle photo enregistrée';
 };
 
+document.getElementById('receiverSig').onclick=()=>{
 
-document.getElementById('finalSig').onclick=()=>{
+st.receiverSigned=true;
 
-st.finalSigned=true;
+document.getElementById('receiverSig').textContent=
+'✓ Signature du réceptionnaire enregistrée';
 
-document.getElementById('finalSig').textContent=
-'✓ Signature finale enregistrée';
-
-document.getElementById('finalSig').style.color=
+document.getElementById('receiverSig').style.color=
 '#166534';
-
-update();
-
 };
 
+document.getElementById('finishDelivery').onclick=()=>{
 
-function validFinal(){
-
-return
-st.arrival2&&
-document.getElementById('brand2').value&&
-document.getElementById('model2').value&&
-document.getElementById('plate2').value&&
-st.finalSigned&&
-st.keys!==null&&
-(st.keys?st.keyPhoto:true);
-
-}
-
-
-document.getElementById('next').onclick=()=>{
-
-if(st.screen===9){
-
-if(!validFinal()){
+if(!st.deliveryPhoto){
 
 alert(
-'Pour terminer : marque, modèle, immatriculation, signature finale et statut des clés sont obligatoires. Si les clés sont présentes, leur photo est obligatoire.'
+'Nouvelle photo obligatoire.'
 );
 
 return;
-
 }
 
-syncVehicle();
+if(
+!document.getElementById('receiverName')
+.value.trim()
+){
 
-st.screen=10;
+alert(
+'Le nom du réceptionnaire est obligatoire.'
+);
 
-buildSummary();
-
-}
-
-else if(canNext()){
-
-st.screen++;
-
-update();
-
-}
-
-};
-
-
-document.getElementById('back').onclick=()=>{
-
-if(st.screen>0){
-
-st.screen--;
-
-update();
-
-}
-
-};
-
-
-function syncFinalKeys(){
-
-const card=
-document.getElementById('finalKeyCard');
-
-const info=
-document.getElementById('parkKeyInfo');
-
-const choices=
-document.getElementById('finalKeyChoices');
-
-if(!card)
 return;
-
-
-if(st.parkKeys!==null){
-
-choices.classList.add('hidden');
-
-info.classList.remove('hidden');
-
-info.className=
-'notice ok';
-
-info.textContent=
-st.parkKeys
-?'Clés présentes — statut déjà validé à la mise en parc.'
-:'Pas de clés — statut déjà validé à la mise en parc.';
-
-st.keys=
-st.parkKeys;
-
 }
 
-else{
+if(!st.receiverSigned){
 
-choices.classList.remove('hidden');
+alert(
+'La signature du réceptionnaire est obligatoire.'
+);
 
-info.classList.add('hidden');
-
+return;
 }
 
-}
+parks.splice(
+st.parkIndex,
+1
+);
 
+saveParks();
 
-function syncVehicle(){
+current=null;
 
-document.getElementById('brand2').value=
-document.getElementById('brand').value||
-document.getElementById('brand2').value;
+localStorage.removeItem(
+'gdc_current'
+);
 
-document.getElementById('model2').value=
-document.getElementById('model').value||
-document.getElementById('model2').value;
+alert(
+'Relivraison validée. Mission terminée.'
+);
 
-document.getElementById('plate2').value=
-document.getElementById('plate').value||
-document.getElementById('plate2').value;
-
-document.getElementById('km2').value=
-document.getElementById('km').value||
-document.getElementById('km2').value;
-
-}
-
-
-function buildSummary(){
-
-const p=
-[...document.querySelectorAll('#s4 input:checked')]
-.map(x=>x.value)
-.join(', ')||'Aucune';
-
-const a=
-parseFloat(document.getElementById('kmGarageAccident')?.value)||0;
-
-const b=
-parseFloat(document.getElementById('kmAccidentDelivery')?.value)||0;
-
-const c=
-parseFloat(document.getElementById('kmDeliveryDepot')?.value)||0;
-
-const totalKm=
-st.dest==='Livraison'
-?a+b+c
-:a*2;
-
-const extraKm=
-Math.max(0,totalKm-20);
-
-const days=
-st.parkStart
-?Math.max(
-1,
-Math.ceil(
-(Date.now()-new Date(st.parkStart).getTime())/86400000
-)
-)
-:0;
-
-const guard=
-days*50;
-
-document.getElementById('finalSummary').innerHTML=
-
-`<div class="event">
-<b>Nature</b>
-<small>${st.nature}</small>
-</div>
-
-<div class="event">
-<b>Type</b>
-<small>${st.type}</small>
-</div>
-
-<div class="event">
-<b>Tarification</b>
-<small>${st.tariff} — 20 km inclus</small>
-</div>
-
-<div class="event">
-<b>Kilométrage total</b>
-<small>${totalKm.toFixed(1)} km</small>
-</div>
-
-<div class="event">
-<b>Km supplémentaires</b>
-<small>${extraKm.toFixed(1)} km</small>
-</div>
-
-<div class="event">
-<b>Gardiennage</b>
-<small>${days?days+' jour(s) — '+guard+' € HT':'Pas de gardiennage'}</small>
-</div>
-
-<div class="event">
-<b>Client</b>
-<small>${document.getElementById('client').value||'—'}</small>
-</div>
-
-<div class="event">
-<b>Véhicule</b>
-<small>${document.getElementById('brand2').value} ${document.getElementById('model2').value} — ${document.getElementById('plate2').value}</small>
-</div>
-
-<div class="event">
-<b>Destination</b>
-<small>${st.dest}</small>
-</div>
-
-<div class="event">
-<b>Prestations</b>
-<small>${p}</small>
-</div>
-
-<div class="event">
-<b>Clés</b>
-<small>${st.keys?'Présentes — photo enregistrée':'Pas de clés'}</small>
-</div>`;
-
-update();
-
-}
-
+show('s11');
+};
 
 document.getElementById('wFinish').onclick=()=>{
 
-event(
-'Véhicule sorti du parc — épaviste : '+
-(document.getElementById('wrecker').value||'non renseigné')
+if(
+!document.getElementById('wrecker')
+.value.trim()
+){
+
+alert(
+'Le nom de l’épaviste est obligatoire.'
 );
 
-st.screen=10;
+return;
+}
 
-document.getElementById('finalSummary').innerHTML=
+parks.splice(
+st.parkIndex,
+1
+);
 
-`<div class="event">
-<b>Statut</b>
-<small>Véhicule sorti du parc</small>
-</div>
+saveParks();
 
-<div class="event">
-<b>Épaviste / société</b>
-<small>${document.getElementById('wrecker').value||'—'}</small>
-</div>
+current=null;
 
-<div class="event">
-<b>Date / heure</b>
-<small>${document.getElementById('wdate').value||'—'} ${document.getElementById('wtime').value||''}</small>
-</div>`;
+localStorage.removeItem(
+'gdc_current'
+);
 
-update();
+alert(
+'Véhicule sorti du parc par épaviste.'
+);
+
+show('s11');
+};
+
+document.getElementById('next').onclick=()=>{
+
+let id=
+document.querySelector('.screen.active').id;
+
+if(id==='s0'){
+
+if(!st.nature||!st.type){
+
+alert(
+'Choisis la nature et le type.'
+);
+
+return;
+}
+
+show('s1');
+
+}
+
+else if(id==='s1'){
+
+if(!st.arrival){
+
+alert(
+'Commence la mission sur place.'
+);
+
+return;
+}
+
+show('s2');
+
+}
+
+else if(id==='s2'){
+
+if(!st.loaded){
+
+alert(
+'Valide la fin de chargement.'
+);
+
+return;
+}
+
+show('s3');
+
+}
+
+else if(id==='s3'){
+
+show('s4');
+
+}
+
+else if(id==='s4'){
+
+if(!st.signed&&!st.absent){
+
+alert(
+'Signature ou absence obligatoire.'
+);
+
+return;
+}
+
+show('s5');
+
+}
+
+else if(id==='s5'){
+
+show('s6');
+
+}
 
 };
 
+document.getElementById('back').onclick=()=>{
 
-update();
+let id=
+document.querySelector('.screen.active').id;
+
+const order=[
+'s0',
+'s1',
+'s2',
+'s3',
+'s4',
+'s5',
+'s6',
+'s7'
+];
+
+let i=order.indexOf(id);
+
+if(i>0){
+
+show(order[i-1]);
+
+}else{
+
+show('s11');
+
+}
+};
+
+function syncCurrentUI(){
+
+if(!current)return;
+
+if(
+current.data&&
+current.data.brand
+){
+
+document.getElementById('brand').value=
+current.data.brand;
+
+document.getElementById('model').value=
+current.data.model;
+
+document.getElementById('plate').value=
+current.data.plate;
+}
+}
+
+renderAll();
 
 </script>
 
 </body>
-  </html>
+</html>
